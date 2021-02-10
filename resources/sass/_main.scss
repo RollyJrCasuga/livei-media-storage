@@ -1,0 +1,72 @@
+.card {
+    width: 80%;
+}
+// table
+.table-preview {
+    width: 25px;
+    height: 25px;
+    border-radius: 2px;
+    font-size: 1.5rem;
+}
+.media-view {
+    width: 100%;
+    border-radius: 2px;
+    @include media(md) {
+        width: auto;
+        height: 480px;
+    }
+}
+
+// tagify
+.tagify--outside {
+    border: 0;
+}
+
+.tagify--outside .tagify__input {
+    order: -1;
+    flex: 100%;
+    border: 1px solid var(--tags-border-color);
+    margin-bottom: 1em;
+    transition: 0.1s;
+}
+
+.tagify--outside .tagify__input:hover {
+    border-color: var(--tags-hover-border-color);
+}
+
+.tagify--outside.tagify--focus .tagify__input {
+    transition: 0s;
+    border-color: var(--tags-focus-border-color);
+}
+
+// inputs
+
+//buttons
+a.btn {
+    border-radius: 20px;
+}
+
+//create
+.create {
+    .file-upload {
+        width: 190px;
+    }
+}
+
+.table {
+    th,
+    td {
+        white-space: nowrap;
+        vertical-align: middle;
+        &:nth-child(2),
+        &:nth-child(3) {
+            display: none;
+        }
+        @include media(md) {
+            &:nth-child(2),
+            &:nth-child(3) {
+                display: table-cell;
+            }
+        }
+    }
+}
