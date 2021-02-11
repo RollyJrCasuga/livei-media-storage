@@ -16,6 +16,51 @@ $("body").on("click", "[class^='table-data']", function (e) {
     window.location = $(this).data("href");
 });
 
-$(document).ready(function () {
-    $("#example").DataTable();
+// $("body").on("click", ".export-btn", function (e) {
+//     $.ajax({
+//         url: "/file/export",
+//         data: filterData,
+//         success: function (data) {
+//             console.log(data.table);
+//             $("#table-content").html(data.table);
+//         },
+//     });
+// });
+
+//search with names
+let search;
+
+$("#search").on("input", function () {
+    var input = $("#search").val();
+    console.log(input);
+    search = input;
+    filterFile({
+        search: search,
+    });
 });
+
+function filterFile(filterData) {
+    $.ajax({
+        url: "/file/filter",
+        data: filterData,
+        success: function (data) {
+            console.log(data.table);
+            $("#table-content").html(data.table);
+        },
+    });
+}
+
+//search with tags
+var input = document.querySelector("input[name=tags-select-mode]"),
+    tagify = new Tagify(input, {
+        mode: "select",
+        whitelist: tagsWhiteList,
+        blacklist: ["foo", "bar"],
+        keepInvalidTags: true, // do not auto-remove invalid tags
+        dropdown: {
+            // closeOnSelect: false
+        },
+    });
+
+tagify.on("add", onAddTag);
+tagify.DOM.input.addEventListener("focus", onSelectFocus);

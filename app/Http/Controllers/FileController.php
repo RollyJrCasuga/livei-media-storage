@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\File;
 use Spatie\Tags\Tag;
+use App\Exports\FilesExport;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\File as FileStorage;
 
 class FileController extends Controller
@@ -64,6 +66,7 @@ class FileController extends Controller
         'file_path' =>  $file_path,
         'file_size' => $file_size,
         ]);
+
 
         if ($request->tags) {
             $tags = $this->decodeTag($request->tags);
@@ -150,5 +153,30 @@ class FileController extends Controller
             $decoded_tags[$i] = $init_tags[$i]['value'];
         }
         return $decoded_tags; 
+    }
+
+    public function filter(Request $request){
+        $files = new File;
+        $tags = new Tag;
+        $search = $request->query('search');
+
+        if ($search){
+            $files = $files->where('name', 'LIKE', "%{$search}%")->get();
+            // $files = $files->withAnyTags([$search])->get();
+        }
+        else{
+            $files = $files->all();
+        }
+
+        if ($request->ajax()){
+            return response()->json([
+                'table' => view('file.table', compact('files'))->render(),
+            ]);
+        }
+    }
+
+    public function export(){
+        return Excel::download(new FilesExport, 'Files'. date('-Y-m-d-h-i-s') .'.xlsx');
+        // return (new FilesExport())->withFilename('files' . now()->format('Y-m-d h:i:sa') . '.xlsx');
     }
 }

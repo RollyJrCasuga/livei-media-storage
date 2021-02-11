@@ -1,4 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito);
+@import url(https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400&display=swap);
 @charset "UTF-8";
 /*!
  * Bootstrap v4.6.0 (https://getbootstrap.com/)
@@ -10524,6 +10525,24 @@ h3 {
   filter: brightness(105%);
 }
 
+body {
+  color: #232323;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-weight: 400;
+}
+
+a {
+  color: #232323;
+}
+
 .card {
   width: 80%;
 }
@@ -10591,4 +10610,16 @@ a.btn {
 .table td:nth-child(3) {
     display: table-cell;
   }
+}
+.table tr:hover {
+  background-color: #e8f0fe;
+}
+
+.home input {
+  border-radius: 15px;
+  border-style: none;
+  border: 2px solid grey;
+}
+.home input:focus {
+  outline: none;
 }

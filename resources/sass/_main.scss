@@ -1,3 +1,22 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400&display=swap");
+body {
+    color: $dark-grey;
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    font-weight: 400;
+}
+
+a {
+    color: $dark-grey;
+}
+
 .card {
     width: 80%;
 }
@@ -67,6 +86,23 @@ a.btn {
             &:nth-child(3) {
                 display: table-cell;
             }
+        }
+    }
+    tr {
+        &:hover {
+            background-color: rgb(232, 240, 254);
+        }
+    }
+}
+
+.home {
+    input {
+        border-radius: 15px;
+        border-style: none;
+        border: 2px solid grey;
+
+        &:focus {
+            outline: none;
         }
     }
 }
