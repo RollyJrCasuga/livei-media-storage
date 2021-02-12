@@ -3,6 +3,9 @@ body {
     color: $dark-grey;
     font-family: "Roboto", sans-serif;
     font-weight: 300;
+    -webkit-touch-callout: none;
+    -khtml-user-select: none;
+    user-select: none;
 }
 
 h1,
@@ -10,7 +13,7 @@ h2,
 h3,
 h4,
 h5 {
-    font-weight: 400;
+    font-weight: 100;
 }
 
 a {
@@ -18,21 +21,16 @@ a {
 }
 
 .card {
-    width: 80%;
-}
-// table
-.table-preview {
-    width: 25px;
-    height: 25px;
-    border-radius: 2px;
-    font-size: 1.5rem;
-}
-.media-view {
     width: 100%;
-    border-radius: 2px;
     @include media(md) {
         width: auto;
-        height: 480px;
+    }
+
+    .card-body {
+        padding: 0.25rem;
+        @include media(md) {
+            padding: 1.25rem;
+        }
     }
 }
 
@@ -72,6 +70,22 @@ a.btn {
     }
 }
 
+// table
+.table-preview {
+    width: 25px;
+    height: 25px;
+    border-radius: 2px;
+    font-size: 1.5rem;
+}
+.media-view {
+    width: 100%;
+    border-radius: 2px;
+    @include media(md) {
+        width: auto;
+        height: 480px;
+    }
+}
+
 .table {
     th,
     td {
@@ -93,13 +107,23 @@ a.btn {
             background-color: rgb(232, 240, 254);
         }
     }
+    a {
+        &:hover {
+            text-decoration: none;
+        }
+    }
 }
 
 .home {
+    .col-md-4 {
+        margin-top: 1rem;
+    }
     input {
-        border-radius: 15px;
+        border-radius: 20px;
         border-style: none;
         border: 2px solid grey;
+        line-height: 30px;
+        padding-left: 1rem;
 
         &:focus {
             outline: none;

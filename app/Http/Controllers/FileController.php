@@ -161,8 +161,8 @@ class FileController extends Controller
         $search = $request->query('search');
 
         if ($search){
-            $files = $files->where('name', 'LIKE', "%{$search}%")->get();
-            // $files = $files->withAnyTags([$search])->get();
+            // $files = $files->where('name', 'LIKE', "%{$search}%")->get();
+            $files = $files->withAnyTags([$search])->get();
         }
         else{
             $files = $files->all();

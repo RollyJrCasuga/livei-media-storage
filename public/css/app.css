@@ -10526,9 +10526,14 @@ h3 {
 }
 
 body {
-  color: #232323;
+  color: #474747;
   font-family: "Roboto", sans-serif;
   font-weight: 300;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 
 h1,
@@ -10536,32 +10541,27 @@ h2,
 h3,
 h4,
 h5 {
-  font-weight: 400;
+  font-weight: 100;
 }
 
 a {
-  color: #232323;
+  color: #474747;
 }
 
 .card {
-  width: 80%;
-}
-
-.table-preview {
-  width: 25px;
-  height: 25px;
-  border-radius: 2px;
-  font-size: 1.5rem;
-}
-
-.media-view {
   width: 100%;
-  border-radius: 2px;
 }
 @media (min-width: 768px) {
-  .media-view {
+  .card {
     width: auto;
-    height: 480px;
+  }
+}
+.card .card-body {
+  padding: 0.25rem;
+}
+@media (min-width: 768px) {
+  .card .card-body {
+    padding: 1.25rem;
   }
 }
 
@@ -10594,6 +10594,24 @@ a.btn {
   width: 190px;
 }
 
+.table-preview {
+  width: 25px;
+  height: 25px;
+  border-radius: 2px;
+  font-size: 1.5rem;
+}
+
+.media-view {
+  width: 100%;
+  border-radius: 2px;
+}
+@media (min-width: 768px) {
+  .media-view {
+    width: auto;
+    height: 480px;
+  }
+}
+
 .table th,
 .table td {
   white-space: nowrap;
@@ -10614,11 +10632,19 @@ a.btn {
 .table tr:hover {
   background-color: #e8f0fe;
 }
+.table a:hover {
+  text-decoration: none;
+}
 
+.home .col-md-4 {
+  margin-top: 1rem;
+}
 .home input {
-  border-radius: 15px;
+  border-radius: 20px;
   border-style: none;
   border: 2px solid grey;
+  line-height: 30px;
+  padding-left: 1rem;
 }
 .home input:focus {
   outline: none;

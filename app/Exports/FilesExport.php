@@ -82,7 +82,6 @@ class FilesExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoSiz
                         if (str_contains($cell->getValue(), '://')) {
                             $cell->setHyperlink(new Hyperlink($cell->getValue(), 'Read'));
 
-                             // Upd: Link styling added
                              $event->sheet->getStyle($cell->getCoordinate())->applyFromArray([
                                 'font' => [
                                     'color' => ['rgb' => '0000FF'],
