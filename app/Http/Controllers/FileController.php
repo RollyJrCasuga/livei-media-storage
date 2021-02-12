@@ -76,17 +76,6 @@ class FileController extends Controller
             $file->attachTags($tags);
         }
 
-        
-        $files = $request->file('files');
-
-        if($request->hasFile('files'))
-        {
-            foreach ($files as $file) {
-                $file->store('users/' . $this->user->id . '/messages');
-            }
-        }
-
-
         return redirect()->route('file.index');
     }
 
