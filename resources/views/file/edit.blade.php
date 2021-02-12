@@ -44,17 +44,20 @@
                 <div class="form-group">
                     <label for="">Tags:</label>
                     <input id="tags" type="text" name="tags" class="tagify--outside" value="@foreach ($file->tags as $tag){{$tag->name}}@if(!$loop->last), @endif @endforeach">
-                    <button class="mt-3 btn btn-danger tags--removeAllBtn" type="button">Remove all tags</button>
+                    <button class="mt-3 btn btn-danger tags--removeAllBtn" type="button"><i class="fas fa-tags"></i> Remove all tags</button>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Update</button>
+                    <button type="submit" class="btn btn-primary"><i class="far fa-edit"></i> Update</button>
                 </div>
             </form>
+                <div class="form-group">
+                    <a class="btn btn-success" href="{{ asset($file->file_path) }}" download><i class="fas fa-download"></i> Download</a>
+                </div>
                 <div class="form-group">
                     <form action="{{ route('file.destroy', $file->id) }}" method="post">
                         @csrf
                         @method('DELETE')
-                        <button class="btn btn-danger" type="submit">Delete file</button>
+                        <button class="btn btn-danger" type="submit"><i class="far fa-trash-alt"></i> Delete</button>
                     </form>
                 </div>
     </div>

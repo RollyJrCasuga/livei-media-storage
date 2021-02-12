@@ -1,5 +1,8 @@
 @import url("https://fonts.googleapis.com/css?family=Nunito");
 
+$btn-border-radius: 25px;
+$success: rgb(82, 143, 41);
+$danger: rgb(243, 48, 49);
 @import "~bootstrap/scss/bootstrap";
 
 @import "~@yaireo/tagify/src/tagify";

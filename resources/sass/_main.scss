@@ -59,9 +59,9 @@ a {
 // inputs
 
 //buttons
-a.btn {
-    border-radius: 20px;
-}
+// a.btn {
+//     border-radius: 20px;
+// }
 
 //create
 .create {
@@ -91,6 +91,12 @@ a.btn {
     td {
         white-space: nowrap;
         vertical-align: middle;
+        &:nth-child(2) {
+            white-space: unset;
+            word-wrap: break-word;
+            max-width: 300px;
+        }
+
         &:nth-child(2),
         &:nth-child(3) {
             display: none;
@@ -127,6 +133,22 @@ a.btn {
 
         &:focus {
             outline: none;
+        }
+    }
+}
+
+.login {
+    margin-top: 10rem;
+    .card {
+        border: none;
+        .login-header {
+            background-color: white;
+        }
+    }
+    img {
+        width: 80%;
+        @include media(md) {
+            width: 60%;
         }
     }
 }

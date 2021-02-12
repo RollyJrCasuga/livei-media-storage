@@ -23,9 +23,9 @@
             <div class="form-group">
                 <label for="">Tags:</label>
                 <input id="tags" type="text" name="tags" class="tagify--outside">
-                <button class="mt-3 btn btn-danger tags--removeAllBtn" type="button">Remove all tags</button>
+                <button class="mt-3 btn btn-danger tags--removeAllBtn" type="button"><i class="fas fa-tags"></i> Remove all tags</button>
             </div>
-            <button type="submit" class="btn btn-primary">Upload</button>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-cloud-upload-alt"></i> Upload</button>
         </form>
     </div>
 </div>

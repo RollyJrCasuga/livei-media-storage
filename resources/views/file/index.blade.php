@@ -2,16 +2,19 @@
 
 @section('content')
 <div id="home" class="home">
+    <form action="/logout" method="POST">
+        @csrf
+        <button class="btn btn-light" type="submit">Logout</button>
+    </form>
 <br>
 <h2><i class="fas fa-database"></i> Drive - Livei.com</h2>
     <div class="row">
         <div class="col-md-4">
-            <input class="" id="search" class="search" type="text" placeholder="Search">
-        </div>
-        <div class="col-md-4">
             <a class="btn btn-success" href="{{ route('file.create') }}"><i class="fas fa-plus"></i> New Upload</a>
         </div>
-        
+        <div class="col-md-4">
+            <input class="" id="search" class="search" type="text" placeholder="Search">
+        </div>
         <div class="col-md-4">
             <a class="export-btn btn btn-info" href="{{ route('file.export') }}"><i class="fas fa-file-export"></i> Export</a>
         </div>
@@ -23,7 +26,7 @@
         <thead>
             <tr>
                 <th scope="col">Name</th>
-                <th scope="col">Tags</th>
+                <th scope="col"><i class="fas fa-tags"></i> Tags</th>
                 <th scope="col">File Size</th>
                 <th scope="col">Date Uploaded</th>
             </tr>

@@ -42,6 +42,9 @@ class FileController extends Controller
      */
     public function store(Request $request)
     {
+
+        
+
         $request->validate([
             'file' => 'required',
         ]);
@@ -72,7 +75,18 @@ class FileController extends Controller
             $tags = $this->decodeTag($request->tags);
             $file->attachTags($tags);
         }
+
         
+        $files = $request->file('files');
+
+        if($request->hasFile('files'))
+        {
+            foreach ($files as $file) {
+                $file->store('users/' . $this->user->id . '/messages');
+            }
+        }
+
+
         return redirect()->route('file.index');
     }
 

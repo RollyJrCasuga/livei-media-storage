@@ -18,17 +18,11 @@
     <td class="">
         @foreach ($file->tags as $tag)
             <code class="bg-secondary h6 text-light p-1">{{ $tag->name }}</code>
+            {{-- <a class="bg-secondary h6 text-light p-1">{{ $tag->name }}</a> --}}
         @endforeach
         
     </td>
     <td>{{ $file->file_size }}</td>
     <td>{{ $file->created_at->format('M j, Y h:i:s A') }}</td>
-    {{-- <td>
-        <form action="{{ route('file.destroy', $file->id) }}" method="post">
-        @csrf
-        @method('DELETE')
-        <button class="btn btn-danger" type="submit">Delete</button>
-        </form>
-    </td> --}}
 </tr>
 @endforeach
