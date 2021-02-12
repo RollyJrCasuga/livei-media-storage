@@ -15,8 +15,18 @@
                 <source src="{{ asset($file->file_path) }}" type="{{ $file->mime_type }}">
             </audio>
         @elseif (strpos($file->mime_type, 'video')  !== false )
-            <video class="media-view" controls>
+            {{-- <video class="media-view" controls>
                 <source src="{{ asset($file->file_path) }}" type="{{ $file->mime_type }}">
+            </video> --}}
+            <video
+                id="my-video"
+                class="video-js media-view"
+                controls
+                preload="auto"
+                data-setup="{}"
+            >
+                <source src="{{ asset($file->file_path) }}" type="{{ $file->mime_type }}" />
+                {{-- <source src="MY_VIDEO.webm" type="video/webm" /> --}}
             </video>
 
         @elseif (strpos($file->mime_type, 'image')  !== false )   

@@ -23,7 +23,7 @@ a {
 .card {
     width: 100%;
     @include media(md) {
-        width: auto;
+        width: 80%;
     }
 
     .card-body {

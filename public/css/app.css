@@ -10553,7 +10553,7 @@ a {
 }
 @media (min-width: 768px) {
   .card {
-    width: auto;
+    width: 80%;
   }
 }
 .card .card-body {
