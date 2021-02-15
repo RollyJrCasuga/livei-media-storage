@@ -15,9 +15,6 @@
                 <source src="{{ asset($file->file_path) }}" type="{{ $file->mime_type }}">
             </audio>
         @elseif (strpos($file->mime_type, 'video')  !== false )
-            {{-- <video class="media-view" controls>
-                <source src="{{ asset($file->file_path) }}" type="{{ $file->mime_type }}">
-            </video> --}}
             <video
                 id="my-video"
                 class="video-js media-view"
@@ -26,14 +23,12 @@
                 data-setup="{}"
             >
                 <source src="{{ asset($file->file_path) }}" type="{{ $file->mime_type }}" />
-                {{-- <source src="MY_VIDEO.webm" type="video/webm" /> --}}
             </video>
 
         @elseif (strpos($file->mime_type, 'image')  !== false )   
             <img class="media-view" src="{{ asset($file->file_path) }}" alt="">
-        
         @endif
-
+            <br>
             <form method="post" action="{{ route('file.update', $file->id) }}" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
@@ -53,13 +48,15 @@
                 <div class="form-group">
                     <a class="btn btn-success" href="{{ asset($file->file_path) }}" download><i class="fas fa-download"></i> Download</a>
                 </div>
-                <div class="form-group">
-                    <form action="{{ route('file.destroy', $file->id) }}" method="post">
-                        @csrf
-                        @method('DELETE')
-                        <button class="btn btn-danger" type="submit"><i class="far fa-trash-alt"></i> Delete</button>
-                    </form>
-                </div>
+                @role('administrator')
+                    <div class="form-group">
+                        <form action="{{ route('file.destroy', $file->id) }}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-danger" type="submit"><i class="far fa-trash-alt"></i> Delete</button>
+                        </form>
+                    </div>
+                @endrole
     </div>
 </div>
 

@@ -10548,6 +10548,17 @@ a {
   color: #474747;
 }
 
+.custom-navbar {
+  padding: 0.5rem 0;
+}
+.custom-navbar ul {
+  list-style-type: none;
+}
+.custom-navbar a:hover {
+  text-decoration: none;
+  color: grey;
+}
+
 .card {
   width: 100%;
 }

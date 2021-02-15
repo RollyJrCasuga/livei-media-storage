@@ -12,8 +12,12 @@
   @stack('styles')
 </head>
 <body>
+  @include('partials.flash')
   <div class="container">
-    @include('partials.navbar')
+    @auth
+      @include('partials.navbar')
+    @endauth
+    
     @yield('content')
   </div>
   @include('partials.footer')

@@ -32,7 +32,7 @@
                     <div class="percent">0%</div >
                 </div>
             </div>
-            <input type="submit"  value="Submit" class="btn btn-primary">
+            <input type="submit"  value="+ Upload" class="btn btn-primary">
         </form>
     </div>
 </div>
@@ -57,7 +57,13 @@
             percent.html(percentVal);
         },
         complete: function (xhr) {
-            window.location.href = SITEURL + "/file";
+           if(xhr.responseJSON.hasOwnProperty("error")){
+               window.location.reload();
+           }
+           else{
+                window.location.href = SITEURL + "/file";
+           }
+            
         }
     });
     

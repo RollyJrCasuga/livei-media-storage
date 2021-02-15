@@ -17,17 +17,7 @@ if (tags) {
 
 $("body").on("click", "[class^='table-data']", function (e) {
   window.location = $(this).data("href");
-}); // $("body").on("click", ".export-btn", function (e) {
-//     $.ajax({
-//         url: "/file/export",
-//         data: filterData,
-//         success: function (data) {
-//             console.log(data.table);
-//             $("#table-content").html(data.table);
-//         },
-//     });
-// });
-//search with names
+}); //search with names
 
 var search;
 $("#search").on("input", function () {
@@ -37,6 +27,9 @@ $("#search").on("input", function () {
   filterFile({
     search: search
   });
+});
+$("body").on("click", ".table-header", function (e) {
+  console.log($(this).data("id")); // window.location = $(this).data("href");
 });
 
 function filterFile(filterData) {
@@ -60,8 +53,7 @@ var input = document.querySelector("input[name=tags-select-mode]"),
   // do not auto-remove invalid tags
   dropdown: {// closeOnSelect: false
   }
-});
-tagify.on("add", onAddTag);
-tagify.DOM.input.addEventListener("focus", onSelectFocus);
+}); // tagify.on("add", onAddTag);
+// tagify.DOM.input.addEventListener("focus", onSelectFocus);
 /******/ })()
 ;

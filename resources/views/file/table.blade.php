@@ -1,6 +1,6 @@
 @foreach($files as $file)
-<tr class='table-row'>
-    <td class='table-data d-flex align-items-center' data-href="{{ route('file.edit', $file->id) }}" >
+<tr class='table-data table-row' data-href="{{ route('file.edit', $file->id) }}">
+    <td class=' d-flex align-items-center'  >
         @if (strpos($file->mime_type, 'audio')  !== false )
             <audio class="table-preview" controls>
                 <source src="{{ asset($file->file_path) }}" type="{{ $file->mime_type }}">
@@ -18,7 +18,6 @@
     <td class="">
         @foreach ($file->tags as $tag)
             <code class="bg-secondary h6 text-light p-1">{{ $tag->name }}</code>
-            {{-- <a class="bg-secondary h6 text-light p-1">{{ $tag->name }}</a> --}}
         @endforeach
         
     </td>

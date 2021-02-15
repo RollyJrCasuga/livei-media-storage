@@ -19,8 +19,6 @@ class FileController extends Controller
     public function index()
     {
         $files = File::orderBy('created_at', 'desc')->get();
-        // $files = new File;
-        // $files = $files->orderBy(['created_at', 'asc'])->get();
         $tags = Tag::all();
         return view('file.index',compact('files','tags'));
     }
@@ -44,13 +42,11 @@ class FileController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'files' => 'required|max:2000000',
         ]);
 
-        $files = $request->file('files');
-
-        if($request->hasFile('files'))
+        if($files = $request->file('files'))
         {
             foreach ($files as $file) {
                 $file_name = $file->getClientOriginalName();
@@ -76,13 +72,12 @@ class FileController extends Controller
                     $tags = $this->decodeTag($request->tags);
                     $file->attachTags($tags);
                 }
-                // return redirect()->route('file.index');
-                
             }
             return response()->json(['success' => 'upload success']);
-            
         }
-        // $file_name = $request->file('file')->getClientOriginalName();
+        return response()->json(['error' => 'upload error']);
+
+            // $file_name = $request->file('file')->getClientOriginalName();
         // $mime_type = $request->file->getClientMimeType();
         // $file_size = $request->file('file')->getSize();
         // $file_size = number_format($file_size / 1048576,2)."MB";
@@ -147,6 +142,19 @@ class FileController extends Controller
             'name' => 'required|max:255',
         ]);
 
+        $tags = [];
+        if ($request->tags) {
+            $tags = $this->decodeTag($request->tags);
+            session()->flash('alert-class', 'primary');
+            session()->flash('message', 'Tags updated');
+        } else {
+            if (!auth()->user()->hasRole('administrator')){
+                session()->flash('alert-class', 'danger');
+                session()->flash('message', 'You do not have permission to remove tags');
+                return redirect()->back();
+            }
+        }
+
         $file_name = $request->get('name');
         $old_path = $file->file_path;
         $new_path = '/media/' . 'user/' . $file_name;
@@ -157,10 +165,6 @@ class FileController extends Controller
         
         ]);
 
-        $tags = [];
-        if ($request->tags) {
-            $tags = $this->decodeTag($request->tags);
-        }
         
         $file->syncTags($tags);
         return redirect()->route('file.index');
@@ -196,7 +200,6 @@ class FileController extends Controller
         $search = $request->query('search');
 
         if ($search){
-            // $files = $files->where('name', 'LIKE', "%{$search}%")->get();
             $files = $files->withAnyTags([$search])->get();
         }
         else{
