@@ -18,7 +18,9 @@ class FileController extends Controller
      */
     public function index()
     {
-        $files = File::all();
+        $files = File::orderBy('created_at', 'desc')->get();
+        // $files = new File;
+        // $files = $files->orderBy(['created_at', 'asc'])->get();
         $tags = Tag::all();
         return view('file.index',compact('files','tags'));
     }
@@ -42,41 +44,71 @@ class FileController extends Controller
      */
     public function store(Request $request)
     {
-
-        
-
         $request->validate([
-            'file' => 'required',
-        ]);
-        
-        $file_name = $request->file('file')->getClientOriginalName();
-        $mime_type = $request->file->getClientMimeType();
-        $file_size = $request->file('file')->getSize();
-        $file_size = number_format($file_size / 1048576,2)."MB";
-
-
-        if ($request->get('name')) {
-            $file_name = $request->get('name');
-            $file_type = $request->file('file')->extension();
-            $file_name = $file_name . '.' . $file_type;
-        }
-
-        $request->file->move(public_path('media/'.'user'), $file_name);
-        $file_path = '/media/' . 'user/' . $file_name;
-
-        $file = File::create(['name' => $file_name,
-        'mime_type' => $mime_type,
-        'file_path' =>  $file_path,
-        'file_size' => $file_size,
+            'files' => 'required|max:2000000|mimes:doc,docx',
         ]);
 
+        $files = $request->file('files');
 
-        if ($request->tags) {
-            $tags = $this->decodeTag($request->tags);
-            $file->attachTags($tags);
+        if($request->hasFile('files'))
+        {
+            foreach ($files as $file) {
+                $file_name = $file->getClientOriginalName();
+                $mime_type = $file->getClientMimeType();
+                $file_size = $file->getSize();
+                $file_size = number_format($file_size / 1048576,2)."MB";
+                if ($request->get('name')) {
+                    $file_name = $request->get('name');;
+                    $file_type = $file->extension();
+                    $file_name = $file_name . '.' . $file_type;
+                }
+
+                $file->move(public_path('media/'.'user'), $file_name);
+                $file_path = '/media/' . 'user/' . $file_name;
+
+                $file = File::create(['name' => $file_name,
+                'mime_type' => $mime_type,
+                'file_path' =>  $file_path,
+                'file_size' => $file_size,
+                ]);
+
+                if ($request->tags) {
+                    $tags = $this->decodeTag($request->tags);
+                    $file->attachTags($tags);
+                }
+                // return redirect()->route('file.index');
+                
+            }
+            return response()->json(['success' => 'upload success']);
+            
         }
+        // $file_name = $request->file('file')->getClientOriginalName();
+        // $mime_type = $request->file->getClientMimeType();
+        // $file_size = $request->file('file')->getSize();
+        // $file_size = number_format($file_size / 1048576,2)."MB";
 
-        return redirect()->route('file.index');
+
+        // if ($request->get('name')) {
+        //     $file_name = $request->get('name');
+        //     $file_type = $request->file('file')->extension();
+        //     $file_name = $file_name . '.' . $file_type;
+        // }
+
+        // $request->file->move(public_path('media/'.'user'), $file_name);
+        // $file_path = '/media/' . 'user/' . $file_name;
+
+        // $file = File::create(['name' => $file_name,
+        // 'mime_type' => $mime_type,
+        // 'file_path' =>  $file_path,
+        // 'file_size' => $file_size,
+        // ]);
+
+        // if ($request->tags) {
+        //     $tags = $this->decodeTag($request->tags);
+        //     $file->attachTags($tags);
+        // }
+
+        // return redirect()->route('file.index');
     }
 
     /**

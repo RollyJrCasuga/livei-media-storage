@@ -13,7 +13,7 @@
             <a class="btn btn-success" href="{{ route('file.create') }}"><i class="fas fa-plus"></i> New Upload</a>
         </div>
         <div class="col-md-4">
-            <input class="" id="search" class="search" type="text" placeholder="Search">
+            <input class="" id="search" class="search" type="text" placeholder="Search tags">
         </div>
         <div class="col-md-4">
             <a class="export-btn btn btn-info" href="{{ route('file.export') }}"><i class="fas fa-file-export"></i> Export</a>

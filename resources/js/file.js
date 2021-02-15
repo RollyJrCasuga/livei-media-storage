@@ -61,6 +61,5 @@ var input = document.querySelector("input[name=tags-select-mode]"),
             // closeOnSelect: false
         },
     });
-
 tagify.on("add", onAddTag);
 tagify.DOM.input.addEventListener("focus", onSelectFocus);

@@ -10589,6 +10589,23 @@ a {
 .create .file-upload {
   width: 190px;
 }
+.create .progress {
+  position: relative;
+  width: 100%;
+  height: 2rem;
+}
+.create .bar {
+  background-color: #38c172;
+  width: 0%;
+  height: 100%;
+}
+.create .percent {
+  position: absolute;
+  display: inline-block;
+  left: 50%;
+  top: 50%;
+  color: #040608;
+}
 
 .table-preview {
   width: 25px;
