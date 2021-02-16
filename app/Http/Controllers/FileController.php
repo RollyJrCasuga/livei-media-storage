@@ -19,8 +19,7 @@ class FileController extends Controller
     public function index()
     {
         $files = File::orderBy('created_at', 'desc')->get();
-        $tags = Tag::all();
-        return view('file.index',compact('files','tags'));
+        return view('file.index',compact('files'));
     }
 
     /**

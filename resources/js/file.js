@@ -57,3 +57,9 @@ var input = document.querySelector("input[name=tags-select-mode]"),
     });
 // tagify.on("add", onAddTag);
 // tagify.DOM.input.addEventListener("focus", onSelectFocus);
+
+const fileUploadBtn = document.getElementById("file-upload-btn");
+const fileChosen = document.getElementById("file-chosen");
+fileUploadBtn.addEventListener("change", function () {
+    fileChosen.textContent = this.files[0].name;
+});

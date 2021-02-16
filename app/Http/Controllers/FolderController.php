@@ -14,7 +14,7 @@ class FolderController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**
@@ -24,7 +24,7 @@ class FolderController extends Controller
      */
     public function create()
     {
-        //
+        return view('folder.create');
     }
 
     /**
@@ -35,7 +35,18 @@ class FolderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = auth()->user()->first_name;
+        $folder_path = $user . '/' . $folder_name;
+
+        $folder_name = $request->get('name');
+        $folder_path = $user . '/' . $folder_name;
+        if($request->get('folder_path')){
+            $folder_path = $request->get('folder_path');
+        }
+        
+        $folder = Folder::create(['name' => $folder_name,
+            'folder_path' =>  $folder_path,
+            ]);
     }
 
     /**
@@ -46,7 +57,9 @@ class FolderController extends Controller
      */
     public function show(Folder $folder)
     {
-        //
+        $files = $folder->files;
+        $folders = $folder->subfolder;
+        return view('folder.index', compact('files', 'folders'));
     }
 
     /**

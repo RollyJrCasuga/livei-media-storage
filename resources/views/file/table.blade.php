@@ -1,3 +1,15 @@
+@foreach($folders as $folder)
+<tr class='table-data table-row' data-href="{{ route('folder.show', $folder->id) }}">
+    <td class=' d-flex align-items-center'  >
+        <i class="far fa-folder table-preview"></i>
+        <a class="m-2">{{ $folder->name }}</a>
+    </td>
+    <td></td>
+    <td></td>
+    <td>{{ $folder->created_at->format('M j, Y h:i:s A') }}</td>
+</tr>
+@endforeach
+
 @foreach($files as $file)
 <tr class='table-data table-row' data-href="{{ route('file.edit', $file->id) }}">
     <td class=' d-flex align-items-center'  >

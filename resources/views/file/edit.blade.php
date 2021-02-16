@@ -4,7 +4,7 @@
 <div class="view d-flex justify-content-center">
   <div class="card">
     <div class="card-header">
-        <a class="btn btn-light mb-2" href="{{ route('file.index') }}"><i class="fas fa-arrow-left"></i></a>
+        <a class="btn btn-light mb-2" href="{{ route('home') }}"><i class="fas fa-arrow-left"></i></a>
         <h3>
         {{ $file->name }}
         </h3>

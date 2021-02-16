@@ -5,16 +5,19 @@
 <div class="create d-flex justify-content-center">
     <div class="card">
     <div class="card-header">
-    <a class="btn btn-light mb-2" href="{{ route('file.index') }}"><i class="fas fa-arrow-left"></i></a>
+    <a class="btn btn-light mb-2" href="{{ route('home') }}"><i class="fas fa-arrow-left"></i></a>
     <h4>New File Upload</h4>
     </div>
     <div class="card-body">
         <form id="upload-form" method="POST" action="{{ route('file.store') }}" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
-                <div class="d-flex justify-content-center">
+                <div class="d-flex flex-column justify-content-center">
                     {{-- <input class="file-upload" type="file" name="file" required> --}}
-                    <input class="file-upload" type="file" name="files[]" multiple>
+                    <span id="file-chosen">No file chosen</span>
+                    <input id="file-upload-btn" class="file-upload" type="file" name="files[]" multiple hidden>
+                    <label class="btn btn-success" for="file-upload-btn">Select file</label>
+                    
                 </div>
             </div>
             <div class="form-group">

@@ -10567,6 +10567,9 @@ a {
     width: 80%;
   }
 }
+.card .card-header {
+  background-color: white;
+}
 .card .card-body {
   padding: 0.25rem;
 }
@@ -10598,7 +10601,10 @@ a {
 }
 
 .create .file-upload {
-  width: 190px;
+  width: 300px;
+}
+.create span {
+  margin-left: 1rem;
 }
 .create .progress {
   position: relative;
@@ -10661,6 +10667,7 @@ a {
 }
 .table tr:hover {
   background-color: #e8f0fe;
+  cursor: pointer;
 }
 .table a:hover {
   text-decoration: none;

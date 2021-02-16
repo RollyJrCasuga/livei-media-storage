@@ -40,7 +40,9 @@ a {
     @include media(md) {
         width: 80%;
     }
-
+    .card-header {
+        background-color: white;
+    }
     .card-body {
         padding: 0.25rem;
         @include media(md) {
@@ -71,17 +73,13 @@ a {
     border-color: var(--tags-focus-border-color);
 }
 
-// inputs
-
-//buttons
-// a.btn {
-//     border-radius: 20px;
-// }
-
 //create
 .create {
     .file-upload {
-        width: 190px;
+        width: 300px;
+    }
+    span {
+        margin-left: 1rem;
     }
 
     .progress {
@@ -144,6 +142,7 @@ a {
     tr {
         &:hover {
             background-color: rgb(232, 240, 254);
+            cursor: pointer;
         }
     }
     a {
