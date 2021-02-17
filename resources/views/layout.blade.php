@@ -17,12 +17,10 @@
     @auth
       @include('partials.navbar')
     @endauth
-    
     @yield('content')
   </div>
   @include('partials.footer')
   <script src="https://vjs.zencdn.net/7.10.2/video.min.js"></script>
-  
   <script src="{{ asset('js/app.js') }}"></script>
   @stack('scripts')
 </body>

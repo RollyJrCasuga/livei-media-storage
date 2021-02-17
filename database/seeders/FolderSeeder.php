@@ -19,12 +19,26 @@ class FolderSeeder extends Seeder
             'id' => 1,
             'parent_id' => null,
             'name' => 'Boracay',
+            'folder_path' => '/media/Admin/Boracay/'
         ]);
 
         Folder::create([
             'id' => 2,
+            'parent_id' => 1,
+            'name' => 'Beach',
+            'folder_path' => '/media/Admin/Boracay/Beach/'
+        ]);
+        Folder::create([
+            'id' => 3,
+            'parent_id' => 2,
+            'name' => 'White Sand',
+            'folder_path' => '/media/Admin/Boracay/Beach/White Sand/'
+        ]);
+        Folder::create([
+            'id' => 4,
             'parent_id' => null,
-            'name' => 'Palawan',
+            'name' => 'Coconut',
+            'folder_path' => '/media/Admin/Coconut/'
         ]);
     }
 }

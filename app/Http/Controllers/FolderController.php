@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Spatie\Tags\Tag;
 use App\Models\Folder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File as FileStorage;
 
 class FolderController extends Controller
 {
@@ -22,9 +24,10 @@ class FolderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('folder.create');
+        $folder_id = $request->get('folder_id');
+        return view('folder.create', compact('folder_id'));
     }
 
     /**
@@ -35,18 +38,29 @@ class FolderController extends Controller
      */
     public function store(Request $request)
     {
-        $user = auth()->user()->first_name;
-        $folder_path = $user . '/' . $folder_name;
-
         $folder_name = $request->get('name');
-        $folder_path = $user . '/' . $folder_name;
-        if($request->get('folder_path')){
-            $folder_path = $request->get('folder_path');
-        }
+        $parent_id = $request->get('parent_id');
         
-        $folder = Folder::create(['name' => $folder_name,
+        if ($parent_id) {
+            $parent_folder = Folder::firstWhere('id', $parent_id);
+            $folder_path = $parent_folder->folder_path . $folder_name . '/';
+        } else {
+            $user = auth()->user()->first_name;
+            $folder_path = '/media/'. $user . '/' . $folder_name . '/';
+        }
+
+        $create_path = public_path($folder_path);
+        if(!FileStorage::isDirectory($create_path)){
+            FileStorage::makeDirectory($create_path, 0777, true, true);
+        }
+
+        $folder = Folder::create([
+            'name' => $folder_name,
             'folder_path' =>  $folder_path,
-            ]);
+            'parent_id' => $parent_id,
+        ]);
+        
+        return redirect()->route('folder.show', $folder->id);
     }
 
     /**
@@ -56,10 +70,10 @@ class FolderController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Folder $folder)
-    {
+    { 
         $files = $folder->files;
         $folders = $folder->subfolder;
-        return view('folder.index', compact('files', 'folders'));
+        return view('folder.index', compact('folder', 'files', 'folders'));
     }
 
     /**
@@ -93,6 +107,25 @@ class FolderController extends Controller
      */
     public function destroy(Folder $folder)
     {
-        //
+        $folder_path = $folder->folder_path;
+        if (auth()->user()->hasRole('administrator')){
+            foreach ($folder->files as $file) {
+                $file->delete();
+            }
+            foreach ($folder->children as $folder) {
+                foreach ($folder->files as $file) {
+                    $file->delete();
+                }
+                $folder->delete();
+            }
+            $folder->delete();
+            FileStorage::deleteDirectory($folder_path);
+            return redirect()->route('home');
+        }
+        else{
+            session()->flash('alert-class', 'danger');
+            session()->flash('message', 'Permission Denied!');
+            return redirect()->back();
+        }
     }
 }

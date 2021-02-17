@@ -46,24 +46,6 @@
 @push('scripts')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.js"></script>
 <script>
-    var SITEURL = "{{URL('/')}}";
-    var bar = $('.bar');
-    var percent = $('.percent');
-    $('#upload-form').ajaxForm({
-        beforeSend: function () {
-            var percentVal = '0%';
-            bar.width(percentVal)
-            percent.html(percentVal);
-        },
-        uploadProgress: function (event, position, total, percentComplete) {
-            var percentVal = percentComplete + '%';
-            bar.width(percentVal)
-            percent.html(percentVal);
-        },
-        complete: function (xhr) {
-            window.location.href = xhr.responseJSON.url;
-        }
-    });
+
 </script>
-<script src="{{ asset('js/file.js') }}"></script>
 @endpush

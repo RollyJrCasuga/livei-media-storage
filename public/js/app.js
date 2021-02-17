@@ -1913,7 +1913,28 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
   \******************************/
 /***/ (() => {
 
+$("body").on("click", "[class^='table-data']", function (e) {
+  window.location.href = $(this).data("href");
+});
 
+window.getTags = function () {
+  var inputTagify = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+  $.ajax({
+    url: "/tags",
+    success: function success(data) {
+      setTags(data.tags);
+      if (inputTagify) inputTagify();
+    }
+  });
+};
+
+function setTags() {
+  var tags = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  window.tagsWhiteList = tags;
+}
+
+$("body").on("click", ".table-header", function (e) {// console.log($(this).data("id"));
+});
 
 /***/ }),
 

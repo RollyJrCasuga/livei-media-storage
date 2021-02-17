@@ -10548,6 +10548,11 @@ a {
   color: #474747;
 }
 
+.tagify__dropdown__wrapper {
+  border-radius: 10px;
+  border-color: #ddd;
+}
+
 .custom-navbar {
   padding: 0.5rem 0;
 }
@@ -10556,7 +10561,7 @@ a {
 }
 .custom-navbar a:hover {
   text-decoration: none;
-  color: grey;
+  color: #deece6;
 }
 
 .card {
@@ -10637,7 +10642,6 @@ a {
 }
 @media (min-width: 768px) {
   .media-view {
-    width: auto;
     height: 480px;
   }
 }
@@ -10676,15 +10680,9 @@ a {
 .home .col-md-4 {
   margin-top: 1rem;
 }
-.home input {
+.home .tagify {
   border-radius: 20px;
-  border-style: none;
-  border: 2px solid grey;
-  line-height: 30px;
-  padding-left: 1rem;
-}
-.home input:focus {
-  outline: none;
+  --tags-focus-border-color: grey;
 }
 
 .login {
@@ -10703,4 +10701,8 @@ a {
   .login img {
     width: 60%;
   }
+}
+
+.breadcrumb {
+  background-color: white;
 }

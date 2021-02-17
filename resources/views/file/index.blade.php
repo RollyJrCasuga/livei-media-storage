@@ -33,8 +33,6 @@
 </div>
 @endsection
 @push('scripts')
-<script>
-    var tagsWhiteList = [];
-</script>
+
 <script src="{{ asset('js/file.js') }}"></script>
 @endpush

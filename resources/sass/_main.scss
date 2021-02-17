@@ -20,6 +20,11 @@ a {
     color: $dark-grey;
 }
 
+.tagify__dropdown__wrapper {
+    border-radius: 10px;
+    border-color: #ddd;
+}
+
 .custom-navbar {
     padding: 0.5rem 0;
     ul {
@@ -112,7 +117,7 @@ a {
     width: 100%;
     border-radius: 2px;
     @include media(md) {
-        width: auto;
+        // width: auto;
         height: 480px;
     }
 }
@@ -156,16 +161,10 @@ a {
     .col-md-4 {
         margin-top: 1rem;
     }
-    input {
-        border-radius: 20px;
-        border-style: none;
-        border: 2px solid grey;
-        line-height: 30px;
-        padding-left: 1rem;
 
-        &:focus {
-            outline: none;
-        }
+    .tagify {
+        border-radius: 20px;
+        --tags-focus-border-color: grey;
     }
 }
 
@@ -183,4 +182,8 @@ a {
             width: 60%;
         }
     }
+}
+
+.breadcrumb {
+    background-color: white;
 }

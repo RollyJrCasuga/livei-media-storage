@@ -3,16 +3,24 @@
 @section('content')
 <div id="home" class="home">
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2">
             <a class="btn btn-success" href="{{ route('file.create') }}"><i class="fas fa-plus"></i> New Upload</a>
         </div>
-        <div class="col-md-3">
-            <a class="btn btn-success" href="{{ route('folder.create') }}"><i class="fas fa-plus"></i> New Folder</a>
+        <div class="col-md-2">
+            @if($folder)
+                <a class="btn btn-success" href="{{ route('folder.create',['folder_path'=>$folder->folder_path]) }}"><i class="fas fa-plus"></i> New Folder</a>
+            @else
+                <a class="btn btn-success" href="{{ route('folder.create') }}"><i class="fas fa-plus"></i> New Folder</a>
+            @endif
         </div>
         <div class="col-md-3">
-            <input class="" id="search" class="search" type="text" placeholder="Search tags">
+            <input class="" name="tags-select-mode" id="search" class="search" type="text" placeholder="Search tags">
+            {{-- <input class="" id="search" class="search" type="text" placeholder="Search tags"> --}}
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
+            <a class="export-btn btn btn-info" href="{{ route('file.export') }}"><i class="fas fa-file-export"></i> Import</a>
+        </div>
+        <div class="col-md-2">
             <a class="export-btn btn btn-info" href="{{ route('file.export') }}"><i class="fas fa-file-export"></i> Export</a>
         </div>
     </div>
@@ -36,8 +44,5 @@
 </div>
 @endsection
 @push('scripts')
-<script>
-    var tagsWhiteList = [];
-</script>
-<script src="{{ asset('js/file.js') }}"></script>
+<script src="{{ asset('js/search.js') }}"></script>
 @endpush

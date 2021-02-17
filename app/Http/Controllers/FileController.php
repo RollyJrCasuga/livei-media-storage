@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\File;
+use App\Models\Folder;
 use Spatie\Tags\Tag;
 use App\Exports\FilesExport;
 use Illuminate\Http\Request;
@@ -27,10 +28,10 @@ class FileController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        $tags = Tag::all();
-        return view('file.create', compact('tags'));
+        $folder_id = $request->get('folder_id');
+        return view('file.create', compact('folder_id'));
     }
 
     /**
@@ -44,9 +45,26 @@ class FileController extends Controller
         $validatedData = $request->validate([
             'files' => 'required|max:2000000',
         ]);
+        
+        if(auth()->user()->hasRole('youtube')){
+            $root_folder = 'youtube';
+        }
+        elseif(auth()->user()->hasRole('accounting')){
+            $root_folder = 'acounting';
+        }
+
+        
+        $folder_id = $request->get('folder_id');
 
         if($files = $request->file('files'))
         {
+            if ($folder_id) {
+                $parent_folder = Folder::firstWhere('id', $folder_id);
+                $folder_path = $parent_folder->folder_path;
+            } else {
+                $folder_path = '/media/'. $root_folder . '/';
+            }
+
             foreach ($files as $file) {
                 $file_name = $file->getClientOriginalName();
                 $mime_type = $file->getClientMimeType();
@@ -58,51 +76,34 @@ class FileController extends Controller
                     $file_name = $file_name . '.' . $file_type;
                 }
 
-                $file->move(public_path('media/'.'user'), $file_name);
-                $file_path = '/media/' . 'user/' . $file_name;
+                $create_path = public_path($folder_path);
+                $file->move($create_path, $file_name);
+                $file_path= $folder_path . $file_name;
+                // $file_path = '/media/' . $user . '/' . $file_name;
 
-                $file = File::create(['name' => $file_name,
-                'mime_type' => $mime_type,
-                'file_path' =>  $file_path,
-                'file_size' => $file_size,
+                $file = File::create([
+                    'name' => $file_name,
+                    'mime_type' => $mime_type,
+                    'file_path' =>  $file_path,
+                    'file_size' => $file_size,
                 ]);
+
+                $file->folder_id= $folder_id;
+                $file->save();
 
                 if ($request->tags) {
                     $tags = $this->decodeTag($request->tags);
                     $file->attachTags($tags);
                 }
             }
-            return response()->json(['success' => 'upload success']);
+            if ($folder_id) {
+                $url = route('folder.show', $folder_id);
+            } else {
+                $url = route('home');
+            }
+            return response()->json(['success' => 'upload success', 'url' => $url]);
         }
-        return response()->json(['error' => 'upload error']);
-
-            // $file_name = $request->file('file')->getClientOriginalName();
-        // $mime_type = $request->file->getClientMimeType();
-        // $file_size = $request->file('file')->getSize();
-        // $file_size = number_format($file_size / 1048576,2)."MB";
-
-
-        // if ($request->get('name')) {
-        //     $file_name = $request->get('name');
-        //     $file_type = $request->file('file')->extension();
-        //     $file_name = $file_name . '.' . $file_type;
-        // }
-
-        // $request->file->move(public_path('media/'.'user'), $file_name);
-        // $file_path = '/media/' . 'user/' . $file_name;
-
-        // $file = File::create(['name' => $file_name,
-        // 'mime_type' => $mime_type,
-        // 'file_path' =>  $file_path,
-        // 'file_size' => $file_size,
-        // ]);
-
-        // if ($request->tags) {
-        //     $tags = $this->decodeTag($request->tags);
-        //     $file->attachTags($tags);
-        // }
-
-        // return redirect()->route('file.index');
+        return response()->json(['error' => 'upload error', 'url' => url()->previous()]);
     }
 
     /**
@@ -154,9 +155,18 @@ class FileController extends Controller
             }
         }
 
+        if(auth()->user()->hasRole('youtube')){
+            $root_folder = 'youtube';
+        }
+        elseif(auth()->user()->hasRole('accounting')){
+            $root_folder = 'accounting';
+        }
+
+        // $user = auth()->user()->first_name;
+        
         $file_name = $request->get('name');
         $old_path = $file->file_path;
-        $new_path = '/media/' . 'user/' . $file_name;
+        $new_path = '/media/' . $root_folder . '/' . $file_name;
 
         FileStorage::move(public_path($old_path), public_path($new_path));
         $file->update(['name' => $file_name, 
@@ -164,9 +174,12 @@ class FileController extends Controller
         
         ]);
 
-        
         $file->syncTags($tags);
-        return redirect()->route('file.index');
+
+        if ($file->folder) {
+            return redirect()->route('folder.show', $file->folder_id);
+        }
+        return redirect()->route('home');
     }
 
     /**
@@ -181,7 +194,7 @@ class FileController extends Controller
             unlink(public_path().$file->file_path);
         }
         $file->delete();
-        return redirect()->route('file.index');
+        return redirect()->route('home');
     }
 
     public function decodeTag($tags){
@@ -195,8 +208,12 @@ class FileController extends Controller
 
     public function filter(Request $request){
         $files = new File;
+        $folders = [];
         $tags = new Tag;
         $search = $request->query('search');
+        $sort_type = $request->query('sort_type');
+        
+        // dd($search);
 
         if ($search){
             $files = $files->withAnyTags([$search])->get();
@@ -205,15 +222,26 @@ class FileController extends Controller
             $files = $files->all();
         }
 
+        switch ($sort_type){
+            case 'name':
+                $files = $files->orderBy('name', $sort_type);
+                break;
+            case 'file_size':
+                $files = $files->orderBy('file_size', $sort_type);
+                break;
+            case 'uploaded':
+                $files = $files->orderBy('created_at', $sort_type);
+                break;
+        }
+
         if ($request->ajax()){
             return response()->json([
-                'table' => view('file.table', compact('files'))->render(),
+                'table' => view('file.table', compact('files', 'folders'))->render(),
             ]);
         }
     }
-
     public function export(){
         return Excel::download(new FilesExport, 'Files'. date('-Y-m-d-h-i-s') .'.xlsx');
-        // return (new FilesExport())->withFilename('files' . now()->format('Y-m-d h:i:sa') . '.xlsx');
     }
+
 }

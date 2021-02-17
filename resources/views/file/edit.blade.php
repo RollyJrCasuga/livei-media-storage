@@ -4,7 +4,7 @@
 <div class="view d-flex justify-content-center">
   <div class="card">
     <div class="card-header">
-        <a class="btn btn-light mb-2" href="{{ route('home') }}"><i class="fas fa-arrow-left"></i></a>
+        <a class="btn btn-light mb-2" href="{{ url()->previous() }}"><i class="fas fa-arrow-left"></i></a>
         <h3>
         {{ $file->name }}
         </h3>
@@ -59,11 +59,7 @@
                 @endrole
     </div>
 </div>
-
 @endsection
 @push('scripts')
-<script>
-    var tagsWhiteList = [@foreach ($tags as $tag)"{{$tag->name}}"@if(!$loop->last), @endif @endforeach];
-</script>
 <script src="{{ asset('js/file.js') }}"></script>
 @endpush

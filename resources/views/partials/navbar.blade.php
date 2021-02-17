@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white custom-navbar">
-    <a href="#">
+    <a href="{{ route('home') }}">
         <h2><i class="fas fa-database"></i> Drive - Livei.com</h2>
     </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

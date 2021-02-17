@@ -27,9 +27,11 @@
         @endif
         <a class="m-2">{{ $file->name }}</a>
     </td>
-    <td class="">
+    <td>
         @foreach ($file->tags as $tag)
-            <code class="bg-secondary h6 text-light p-1">{{ $tag->name }}</code>
+        <div class="bg-secondary mb-2 d-inline-block">
+            <code class="h6 text-light p-1 m-0">{{ $tag->name }}</code>
+        </div>
         @endforeach
         
     </td>
