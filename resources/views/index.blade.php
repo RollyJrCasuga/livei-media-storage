@@ -27,20 +27,22 @@
     <br>
     <div class="table-responsive">
         <table class="table">
-        <thead>
-            <tr>
-                <th scope="col" class="table-header" data-id="name">Name</th>
-                <th scope="col" class="table-header" data-id="tags"><i class="fas fa-tags"></i> Tags</th>
-                <th scope="col" class="table-header" data-id="size">File Size</th>
-                <th scope="col" class="table-header" data-id="date">Date Uploaded</th>
-            </tr>
-        </thead>
-        <tbody id="table-content">
-            @include('file.table')
-        </tbody>
-    </table>
+            <thead>
+                <tr>
+                    <th scope="col" class="table-header" data-id="name" data-sort_type="asc">Name</th>
+                    <th scope="col" class="table-header" data-id="tags" data-sort_type="asc"><i class="fas fa-tags"></i> Tags</th>
+                    <th scope="col" class="table-header" data-id="size" data-sort_type="asc">File Size</th>
+                    <th scope="col" class="table-header" data-id="date" data-sort_type="asc">Date Uploaded</th>
+                </tr>
+            </thead>
+            <tbody id="table-content">
+                @include('file.table')
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-center">
+            {{ $files->links() }}
+        </div>
     </div>
-    <div>
 </div>
 @endsection
 @push('scripts')

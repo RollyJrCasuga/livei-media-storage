@@ -209,32 +209,29 @@ class FileController extends Controller
     public function filter(Request $request){
         $files = new File;
         $folders = [];
-        $tags = new Tag;
         $search = $request->query('search');
+        $sort_column = $request->query('sort_column');
         $sort_type = $request->query('sort_type');
         
-        // dd($search);
-
         if ($search){
-            $files = $files->withAnyTags([$search])->get();
-        }
-        else{
-            $files = $files->all();
-        }
+            $files = $files->withAnyTags([$search]);
+        }        
 
-        switch ($sort_type){
+        switch ($sort_column){
             case 'name':
                 $files = $files->orderBy('name', $sort_type);
                 break;
-            case 'file_size':
+            case 'size':
                 $files = $files->orderBy('file_size', $sort_type);
                 break;
-            case 'uploaded':
+            case 'date':
                 $files = $files->orderBy('created_at', $sort_type);
                 break;
+                
         }
 
         if ($request->ajax()){
+            $files = $files->paginate(10)->withQueryString();
             return response()->json([
                 'table' => view('file.table', compact('files', 'folders'))->render(),
             ]);

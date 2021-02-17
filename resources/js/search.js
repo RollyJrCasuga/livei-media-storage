@@ -10,7 +10,7 @@ function inputTagify() {
             keepInvalidTags: true,
         });
 
-    let search, column, sort_type;
+    let search, sort_column, sort_type;
     tagify.on("input", function (e) {
         let input = e.detail.value;
         search = input;
@@ -28,26 +28,29 @@ function inputTagify() {
         });
     });
 
-    // $(document).on("click", ".sort", function () {
-    //     var column_name = $(this).data("column_name");
-    //     var order_type = $(this).data("sorting_type");
-    //     var reverse_order = "";
-    //     if (order_type == "asc") {
-    //         $(this).data("sorting_type", "desc");
-    //         reverse_order = "desc";
-    //     }
-    //     if (order_type == "desc") {
-    //         $(this).data("sorting_type", "asc");
-    //         reverse_order = "asc";
-    //     }
+    $("body").on("click", ".table-header", function () {
+        var column_name = $(this).data("id");
+        var order_type = $(this).data("sort_type");
+        var reverse_order = "";
+        if (order_type == "asc") {
+            $(this).data("sort_type", "desc");
+            reverse_order = "desc";
+        }
+        if (order_type == "desc") {
+            $(this).data("sort_type", "asc");
+            reverse_order = "asc";
+        }
 
-    //     order;
-    //     filterFile({
-    //         search: search,
-    //         column: column,
-    //         sort_type: sort_type,
-    //     });
-    // });
+        sort_column = column_name;
+        sort_type = reverse_order;
+        console.log(sort_column);
+        console.log(sort_type);
+        filterFile({
+            search: search,
+            sort_column: sort_column,
+            sort_type: sort_type,
+        });
+    });
 
     function filterFile(filterData) {
         $.ajax({

@@ -83,9 +83,6 @@ a {
     .file-upload {
         width: 300px;
     }
-    span {
-        margin-left: 1rem;
-    }
 
     .progress {
         position: relative;
@@ -154,6 +151,9 @@ a {
         &:hover {
             text-decoration: none;
         }
+    }
+    .tags {
+        border-radius: 5px;
     }
 }
 

@@ -10608,9 +10608,6 @@ a {
 .create .file-upload {
   width: 300px;
 }
-.create span {
-  margin-left: 1rem;
-}
 .create .progress {
   position: relative;
   width: 100%;
@@ -10675,6 +10672,9 @@ a {
 }
 .table a:hover {
   text-decoration: none;
+}
+.table .tags {
+  border-radius: 5px;
 }
 
 .home .col-md-4 {

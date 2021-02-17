@@ -18,7 +18,6 @@
                 <source src="{{ asset($file->file_path) }}" type="{{ $file->mime_type }}">
             </audio>
         @elseif (strpos($file->mime_type, 'video')  !== false )
-            {{-- <img class="table-preview" src="{{ asset($file->file_path) }}" alt=""> --}}
             <i class="fas fa-play-circle table-preview"></i>
         @elseif (strpos($file->mime_type, 'image')  !== false )
             <img class="table-preview" src="{{ asset($file->file_path) }}" alt="">
@@ -29,7 +28,7 @@
     </td>
     <td>
         @foreach ($file->tags as $tag)
-        <div class="bg-secondary mb-2 d-inline-block">
+        <div class="bg-secondary mb-2 d-inline-block tags">
             <code class="h6 text-light p-1 m-0">{{ $tag->name }}</code>
         </div>
         @endforeach
