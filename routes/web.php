@@ -14,11 +14,12 @@ Route::get('/', function () {
 Route::get('/home', [HomeController::class, 'home'])->name('home')->middleware('auth');
 Route::get('/tags', [TagController::class, 'index'])->name('tags');
 
-
 Route::resource('folder', 'FolderController')->middleware('auth');
 
 Route::get('/file/filter', [FileController::class, 'filter'])->name('file.filter')->middleware('auth');
-
 Route::get('/file/export', [FileController::class, 'export'])->name('file.export')->middleware('auth');
+Route::get('/file/import', [FileController::class, 'importView'])->name('file.importView')->middleware('auth');
+Route::post('/file/import', [FileController::class, 'import'])->name('file.import')->middleware('auth');
+
 Route::resource('file', 'FileController')->middleware('auth');
 

@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\File;
-use App\Models\Folder;
 use Spatie\Tags\Tag;
+use App\Models\Folder;
+use App\Exports\MainExport;
+use App\Imports\MainImport;
 use App\Exports\FilesExport;
+use App\Imports\FilesImport;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\File as FileStorage;
@@ -46,6 +49,8 @@ class FileController extends Controller
             'files' => 'required|max:2000000',
         ]);
         
+        
+
         if(auth()->user()->hasRole('youtube')){
             $root_folder = 'youtube';
         }
@@ -53,7 +58,6 @@ class FileController extends Controller
             $root_folder = 'acounting';
         }
 
-        
         $folder_id = $request->get('folder_id');
 
         if($files = $request->file('files'))
@@ -76,25 +80,33 @@ class FileController extends Controller
                     $file_name = $file_name . '.' . $file_type;
                 }
 
-                $create_path = public_path($folder_path);
-                $file->move($create_path, $file_name);
-                $file_path= $folder_path . $file_name;
-                // $file_path = '/media/' . $user . '/' . $file_name;
-
-                $file = File::create([
-                    'name' => $file_name,
-                    'mime_type' => $mime_type,
-                    'file_path' =>  $file_path,
-                    'file_size' => $file_size,
-                ]);
-
-                $file->folder_id= $folder_id;
-                $file->save();
-
-                if ($request->tags) {
-                    $tags = $this->decodeTag($request->tags);
-                    $file->attachTags($tags);
+                if(File::where('name', $file_name)->exists()){
+                    session()->flash('alert-class', 'danger');
+                    session()->flash('message', 'File name already exists in the database, please change the file name.');
                 }
+                else{
+                    $create_path = public_path($folder_path);
+                    $file->move($create_path, $file_name);
+                    $file_path= $folder_path . $file_name;
+                    // $file_path = '/media/' . $user . '/' . $file_name;
+
+                    $file = File::create([
+                        'name' => $file_name,
+                        'mime_type' => $mime_type,
+                        'file_path' =>  $file_path,
+                        'file_size' => $file_size,
+                    ]);
+
+                    $file->folder_id= $folder_id;
+                    $file->save();
+
+                    if ($request->tags) {
+                        $tags = $this->decodeTag($request->tags);
+                        $file->attachTags($tags);
+                    }
+                }
+
+                
             }
             if ($folder_id) {
                 $url = route('folder.show', $folder_id);
@@ -155,6 +167,7 @@ class FileController extends Controller
             }
         }
 
+        $file_name = $request->get('name');
         if(auth()->user()->hasRole('youtube')){
             $root_folder = 'youtube';
         }
@@ -162,16 +175,18 @@ class FileController extends Controller
             $root_folder = 'accounting';
         }
 
-        // $user = auth()->user()->first_name;
-        
-        $file_name = $request->get('name');
         $old_path = $file->file_path;
-        $new_path = '/media/' . $root_folder . '/' . $file_name;
+        if ($file->folder_id) {
+            $parent_folder = Folder::firstWhere('id', $file->folder_id);
+            $new_path = $parent_folder->folder_path . '/' . $file_name;
+        } else {
+            $new_path = '/media/'. $root_folder . '/' . $file_name;
+        }
 
         FileStorage::move(public_path($old_path), public_path($new_path));
-        $file->update(['name' => $file_name, 
-        'file_path' => $new_path
-        
+        $file->update([
+            'name' => $file_name, 
+            'file_path' => $new_path
         ]);
 
         $file->syncTags($tags);
@@ -237,8 +252,19 @@ class FileController extends Controller
             ]);
         }
     }
+
     public function export(){
-        return Excel::download(new FilesExport, 'Files'. date('-Y-m-d-h-i-s') .'.xlsx');
+        return Excel::download(new MainExport, 'Drive-Livei'. date('-Y-m-d-h-i-s') .'.xlsx');
+    }
+
+    public function importView(){
+        return view('file.import');
+    }
+
+    public function import(Request $request){
+        $file = $request->file('file')->store('import');
+        Excel::import((new MainImport), $file);
+        return redirect()->route('home');
     }
 
 }

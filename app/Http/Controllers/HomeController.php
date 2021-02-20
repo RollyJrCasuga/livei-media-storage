@@ -11,7 +11,7 @@ class HomeController extends Controller
 
         $folder = null;
         $files = File::whereNull('folder_id')->orWhere('folder_id', 0)->orderBy('created_at', 'desc');
-        $folders = Folder::whereNull('parent_id')->orWhere('parent_id', 0)->orderBy('created_at', 'desc');
+        $folders = Folder::whereNull('parent_id')->orWhere('parent_id', 0)->orderBy('created_at', 'desc')->get();
 
         $files = $files->paginate(10)->withQueryString();
         return view('index',compact('files','folders', 'folder'));

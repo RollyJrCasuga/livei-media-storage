@@ -4,19 +4,37 @@
 <div id="home" class="home">
     <div class="row">
         <div class="col-md-3">
-            @if ($folder)
+            <div class="dropdown">
+            <button class="btn btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-plus"></i> New
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                @if ($folder)
+                    <a class="dropdown-item" href="{{ route('file.create',['folder_id'=>$folder->id]) }}">File Upload</a>
+                @else
+                    <a class="dropdown-item" href="{{ route('file.create') }}">File Upload</a>
+                @endif
+                @if($folder)
+                    <a class="dropdown-item" href="{{ route('folder.create',['folder_id'=>$folder->id]) }}">Folder</a>
+                @else
+                    <a class="dropdown-item" href="{{ route('folder.create') }}">Folder</a>
+                @endif
+            </div>
+            </div>
+
+            {{-- @if ($folder)
                 <a class="btn btn-success" href="{{ route('file.create',['folder_id'=>$folder->id]) }}"><i class="fas fa-plus"></i> New Upload</a>
             @else
                 <a class="btn btn-success" href="{{ route('file.create') }}"><i class="fas fa-plus"></i> New Upload</a>
-            @endif
+            @endif --}}
         </div>
-        <div class="col-md-3">
+        {{-- <div class="col-md-3">
             @if($folder)
                 <a class="btn btn-success" href="{{ route('folder.create',['folder_id'=>$folder->id]) }}"><i class="fas fa-plus"></i> New Folder</a>
             @else
                 <a class="btn btn-success" href="{{ route('folder.create') }}"><i class="fas fa-plus"></i> New Folder</a>
             @endif
-        </div>
+        </div> --}}
         @role('administrator')
             <div class="form-group">
                 <form action="{{ route('folder.destroy', $folder->id) }}" method="post">

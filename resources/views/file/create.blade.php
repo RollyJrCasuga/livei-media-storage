@@ -19,7 +19,6 @@
                     <span id="file-chosen">No file chosen</span>
                     <input id="file-upload-btn" class="file-upload" type="file" name="files[]" multiple hidden>
                     <label class="btn btn-success" for="file-upload-btn">Select file</label>
-                    
                 </div>
             </div>
             <div class="form-group">

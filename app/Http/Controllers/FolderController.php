@@ -40,13 +40,20 @@ class FolderController extends Controller
     {
         $folder_name = $request->get('name');
         $parent_id = $request->get('parent_id');
+
+        if(auth()->user()->hasRole('youtube')){
+            $root_folder = 'youtube';
+        }
+        elseif(auth()->user()->hasRole('accounting')){
+            $root_folder = 'accounting';
+        }
         
         if ($parent_id) {
             $parent_folder = Folder::firstWhere('id', $parent_id);
             $folder_path = $parent_folder->folder_path . $folder_name . '/';
         } else {
             $user = auth()->user()->first_name;
-            $folder_path = '/media/'. $user . '/' . $folder_name . '/';
+            $folder_path = '/media/'. $root_folder . '/' . $folder_name . '/';
         }
 
         $create_path = public_path($folder_path);

@@ -6,6 +6,7 @@ use App\Models\File;
 use Maatwebsite\Excel\Excel;
 use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithMapping;
@@ -14,7 +15,14 @@ use PhpOffice\PhpSpreadsheet\Cell\Hyperlink;
 use Illuminate\Contracts\Support\Responsable;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class FilesExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoSize, Responsable, WithEvents
+class FilesExport implements 
+    FromQuery, 
+    WithMapping, 
+    WithHeadings, 
+    ShouldAutoSize, 
+    Responsable, 
+    WithEvents, 
+    WithTitle
 {
     use Exportable;
 
@@ -36,11 +44,16 @@ class FilesExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoSiz
         'Content-Type' => 'text/csv',
     ];
 
+    public function __construct($name){
+        $this->name = $name;
+    }
+
     public function headings(): array
     {
         return [
             'id',
             'name',
+            'folder_id',
             'mime_type',
             'file_path',
             'file_size',
@@ -62,6 +75,7 @@ class FilesExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoSiz
         return [
             $file->id,
             $file->name,
+            $file->folder_id,
             $file->mime_type,
             $file->file_path,
             $file->file_size,
@@ -77,7 +91,7 @@ class FilesExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoSiz
         return [
             AfterSheet::class    => function(AfterSheet $event) {
                 /** @var Worksheet $sheet */
-                foreach ($event->sheet->getColumnIterator('I') as $row) {
+                foreach ($event->sheet->getColumnIterator('J') as $row) {
                     foreach ($row->getCellIterator() as $cell) {
                         if (str_contains($cell->getValue(), '://')) {
                             $cell->setHyperlink(new Hyperlink($cell->getValue(), 'Read'));
@@ -98,5 +112,9 @@ class FilesExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoSiz
     public function query()
     {
         return File::query();
+    }
+    
+    public function title():string{
+        return $this->name;
     }
 }
