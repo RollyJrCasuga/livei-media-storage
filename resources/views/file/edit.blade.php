@@ -1,13 +1,16 @@
 @extends('layout')
 
+@push('styles')
+<link href="{{ asset('css/view.css') }}" rel="stylesheet" type="text/css" />
+@endpush
 @section('content')
 <div class="view d-flex justify-content-center">
   <div class="card">
     <div class="card-header">
         <a class="btn btn-light mb-2" href="{{ url()->previous() }}"><i class="fas fa-arrow-left"></i></a>
-        <h3>
+        <a class="ml-2  ">
         {{ $file->name }}
-        </h3>
+        </a>
     </div>
     <div class="card-body">
         @if (strpos($file->mime_type, 'audio')  !== false )
@@ -28,10 +31,9 @@
         @elseif (strpos($file->mime_type, 'image')  !== false )   
             <img class="media-view" src="{{ asset($file->file_path) }}" alt="">
         @endif
-            <br>
-            <form method="post" action="{{ route('file.update', $file->id) }}" enctype="multipart/form-data">
+            <form class="mt-3" method="post" action="{{ route('file.update', $file->id) }}" enctype="multipart/form-data">
                 @csrf
-                <div class="form-group">
+                <div class="form-group file-name">
                     @method('PATCH')
                     <label for="country_name">New File Name:</label>
                     <input type="text" class="form-control" name="name" value="{{ $file->name }}"/>

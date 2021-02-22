@@ -1913,7 +1913,10 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
   \******************************/
 /***/ (() => {
 
-$("body").on("click", "[class^='table-data']", function (e) {
+// $("body").on("click", "[class^='table-data']", function (e) {
+//     window.location.href = $(this).data("href");
+// });
+$("body").on("click", ".table-data", function (e) {
   window.location.href = $(this).data("href");
 });
 
@@ -1934,7 +1937,20 @@ function setTags() {
 }
 
 $("body").on("click", ".table-header", function (e) {// console.log($(this).data("id"));
-});
+}); // $("a.fancybox").fancybox();
+// $("a#inline").fancybox({
+//     hideOnContentClick: true,
+// });
+// $("a.fancybox").fancybox({
+//     transitionIn: "elastic",
+//     transitionOut: "elastic",
+//     speedIn: 600,
+//     speedOut: 200,
+//     overlayShow: false,
+// });
+// $("body").on("click", ".file-name", function (e) {
+//     console.log("clicked");
+// });
 
 /***/ }),
 
@@ -34439,6 +34455,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/sass/view.scss":
+/*!**********************************!*\
+  !*** ./resources/sass/view.scss ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
 /***/ "./node_modules/popper.js/dist/esm/popper.js":
 /*!***************************************************!*\
   !*** ./node_modules/popper.js/dist/esm/popper.js ***!
@@ -37373,7 +37402,8 @@ process.umask = function() { return 0; };
 /******/ 		
 /******/ 		var deferredModules = [
 /******/ 			["./resources/js/app.js"],
-/******/ 			["./resources/sass/app.scss"]
+/******/ 			["./resources/sass/app.scss"],
+/******/ 			["./resources/sass/view.scss"]
 /******/ 		];
 /******/ 		// no chunk on demand loading
 /******/ 		

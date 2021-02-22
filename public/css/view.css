@@ -1,0 +1,10 @@
+.view .tagify__input {
+  height: 35px;
+  border-radius: 5px;
+}
+.view .form-control {
+  width: 99%;
+}
+.view .file-name {
+  padding-left: 0.27rem;
+}
