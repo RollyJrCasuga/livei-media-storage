@@ -11,6 +11,7 @@ use App\Exports\FilesExport;
 use App\Imports\FilesImport;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File as FileStorage;
 
 class FileController extends Controller
@@ -45,12 +46,20 @@ class FileController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'files' => 'required|max:2000000',
+        $validator = Validator::make($request->all(), [
+            'files' => 'required|max:20000000',
+            'files.*' => 'mimes:mp4,jpeg,jpg,png'
         ]);
-        
-        
 
+        if ($validator->fails()) {
+            session()->flash('alert-class', 'danger');
+            session()->flash('message', 'File not supported. Note: Maximum upload size is 20GB');
+            return response()->json(['error' => 'upload error', 'url' => url()->previous()]);
+        }
+
+        else{
+
+        }
         if(auth()->user()->hasRole('youtube')){
             $root_folder = 'youtube';
         }

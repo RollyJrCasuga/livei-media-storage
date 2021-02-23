@@ -1,11 +1,10 @@
 @extends('layout')
-
 @section('content')
 <div class="create d-flex justify-content-center">
     <div class="card">
         <div class="card-header">
-        <a class="btn btn-light mb-2" href="{{ url()->previous() }}"><i class="fas fa-arrow-left"></i></a>
-        <h4>New File Upload</h4>
+            <a class="btn btn-light mb-2" href="{{ url()->previous() }}"><i class="fas fa-arrow-left"></i></a>
+            <h4>New File Upload</h4>
         </div>
         <div class="card-body">
             <form id="upload-form" class="mt-3" method="POST" action="{{ route('file.store') }}" enctype="multipart/form-data">
