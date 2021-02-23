@@ -66,7 +66,7 @@ return [
     */
 
     'links' => [
-        public_path('media') => storage_path('app/wd14tb'),
+        public_path('media') => storage_path('app/wd14tb/drive'),
     ],
 
 ];
