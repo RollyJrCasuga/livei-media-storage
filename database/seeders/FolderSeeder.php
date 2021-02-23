@@ -16,7 +16,7 @@ class FolderSeeder extends Seeder
      */
     public function run()
     {
-        FileStorage::deleteDirectory(public_path('/media/'));
+        FileStorage::deleteDirectory(public_path('/media'));
 
         // $folder_path = '/media/youtube/Documents/';
         // Folder::create([
