@@ -10573,6 +10573,7 @@ a {
 
 .card {
   width: 100%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 1px 2px 20px 0 rgba(0, 0, 0, 0.1);
 }
 @media (min-width: 768px) {
   .card {
@@ -10581,6 +10582,7 @@ a {
 }
 .card .card-header {
   background-color: white;
+  border-bottom: none;
 }
 .card .card-body {
   padding: 0.25rem;
@@ -10632,6 +10634,21 @@ a {
   top: 50%;
   color: #040608;
 }
+.create .tagify__input {
+  height: 35px;
+  border-radius: 5px;
+}
+.create .form-control {
+  width: 99%;
+}
+.create .file-name {
+  padding-left: 0.27rem;
+}
+.create #file-chosen {
+  width: 200px;
+  margin-left: 2rem;
+  margin-bottom: 0.5rem;
+}
 
 .table-preview {
   width: 25px;
@@ -10675,23 +10692,39 @@ a {
 .home nav {
   font-size: 1.2rem;
 }
+.home .modal {
+  margin-top: 10rem;
+}
+@media (min-width: 768px) {
+  .home .modal {
+    top: 2rem;
+  }
+}
 
 .login {
   margin-top: 10rem;
 }
 .login .card {
   border: none;
+  box-shadow: none;
 }
 .login .card .login-header {
   background-color: white;
 }
+.login .card .card-header {
+  padding: 0 2rem;
+}
 .login img {
   width: 80%;
+  height: 50%;
 }
 @media (min-width: 768px) {
   .login img {
     width: 60%;
   }
+}
+.login button {
+  width: 100px;
 }
 
 .breadcrumb {
@@ -10745,5 +10778,26 @@ a {
   box-shadow: none;
 }
 .table .dropdown-menu button {
+  width: 100%;
+  box-shadow: none;
+}
+.table .dropdown-menu:hover,
+.table .dropdown-menu :active {
+  border-radius: none;
+  border-style: none;
+}
+
+.lightbox .medias {
+  width: 100%;
+  height: 28vh;
+}
+@media (min-width: 768px) {
+  .lightbox .medias {
+    width: 100%;
+    height: 623px;
+  }
+}
+.lightbox button {
+  width: auto;
   box-shadow: none;
 }

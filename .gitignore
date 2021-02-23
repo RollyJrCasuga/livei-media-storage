@@ -13,4 +13,5 @@ npm-debug.log
 yarn-error.log
 .vscode
 /public/media
-/storage/app/
+/storage/14tb
+/storage/app

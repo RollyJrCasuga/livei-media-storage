@@ -1937,20 +1937,7 @@ function setTags() {
 }
 
 $("body").on("click", ".table-header", function (e) {// console.log($(this).data("id"));
-}); // $("a.fancybox").fancybox();
-// $("a#inline").fancybox({
-//     hideOnContentClick: true,
-// });
-// $("a.fancybox").fancybox({
-//     transitionIn: "elastic",
-//     transitionOut: "elastic",
-//     speedIn: 600,
-//     speedOut: 200,
-//     overlayShow: false,
-// });
-// $("body").on("click", ".file-name", function (e) {
-//     console.log("clicked");
-// });
+});
 
 /***/ }),
 
