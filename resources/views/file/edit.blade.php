@@ -12,7 +12,7 @@
         {{ $file->name }}
         </a>
     </div>
-    <div class="card-body">
+    <div class="card-body pt-1 pt-md-0">
         @if (strpos($file->mime_type, 'audio')  !== false )
             <audio class="media-view" controls>
                 <source src="{{ asset($file->file_path) }}" type="{{ $file->mime_type }}">
@@ -28,9 +28,12 @@
                 <source src="{{ asset($file->file_path) }}" type="{{ $file->mime_type }}" />
             </video>
 
-        @elseif (strpos($file->mime_type, 'image')  !== false )   
-            <img class="media-view" src="{{ asset($file->file_path) }}" alt="">
+        @elseif (strpos($file->mime_type, 'image')  !== false )
+            <a href="{{ asset($file->file_path) }}">
+                <img class="media-view" src="{{ asset($file->file_path) }}" alt="">
+            </a>
         @endif
+        
             <form class="mt-3" method="post" action="{{ route('file.update', $file->id) }}" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group file-name">
@@ -41,7 +44,9 @@
                 <div class="form-group">
                     <label for="">Tags:</label>
                     <input id="tags" type="text" name="tags" class="tagify--outside" value="@foreach ($file->tags as $tag){{$tag->name}}@if(!$loop->last), @endif @endforeach">
+                    @role('administrator')
                     <button class="mt-3 btn btn-danger tags--removeAllBtn" type="button"><i class="fas fa-tags"></i> Remove all tags</button>
+                    @endrole
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary"><i class="far fa-edit"></i> Update</button>

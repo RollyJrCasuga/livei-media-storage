@@ -46,11 +46,13 @@ a {
 }
 .card {
     width: 100%;
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 10%), 1px 2px 20px 0 rgb(0 0 0 / 10%);
     @include media(md) {
         width: 80%;
     }
     .card-header {
         background-color: white;
+        border-bottom: none;
     }
     .card-body {
         padding: 0.25rem;
@@ -105,6 +107,21 @@ a {
         top: 50%;
         color: #040608;
     }
+    .tagify__input {
+        height: 35px;
+        border-radius: 5px;
+    }
+    .form-control {
+        width: 99%;
+    }
+    .file-name {
+        padding-left: 0.27rem;
+    }
+    #file-chosen {
+        width: 200px;
+        margin-left: 2rem;
+        margin-bottom: 0.5rem;
+    }
 }
 
 // table
@@ -149,21 +166,35 @@ a {
     nav {
         font-size: 1.2rem;
     }
+    .modal {
+        margin-top: 10rem;
+        @include media(md) {
+            top: 2rem;
+        }
+    }
 }
 
 .login {
     margin-top: 10rem;
     .card {
         border: none;
+        box-shadow: none;
         .login-header {
             background-color: white;
+        }
+        .card-header {
+            padding: 0 2rem;
         }
     }
     img {
         width: 80%;
+        height: 50%;
         @include media(md) {
             width: 60%;
         }
+    }
+    button {
+        width: 100px;
     }
 }
 
@@ -226,7 +257,28 @@ a {
     }
     .dropdown-menu {
         button {
+            width: 100%;
             box-shadow: none;
         }
+        &:hover,
+        :active {
+            border-radius: none;
+            border-style: none;
+        }
+    }
+}
+
+.lightbox {
+    .medias {
+        width: 100%;
+        height: 28vh;
+        @include media(md) {
+            width: 100%;
+            height: 623px;
+        }
+    }
+    button {
+        width: auto;
+        box-shadow: none;
     }
 }

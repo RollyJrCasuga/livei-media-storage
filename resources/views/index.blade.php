@@ -1,5 +1,4 @@
 @extends('layout')
-
 @section('content')
 <div id="home" class="home">
     <div class="row mt-3">
@@ -24,9 +23,11 @@
             </div>
             <div class="col-6 pr-0">
                 <div class="dropdown">
+                @role('administrator')
                 <button class="btn btn-light" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-file-import"></i> Import/Export
                 </button>
+                @endrole
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" href="{{ route('file.import') }}">Import Data</a>
                     <a class="dropdown-item" href="{{ route('file.export') }}">Export Data</a>
@@ -34,11 +35,8 @@
                 </div>
             </div>
         </div>
-        
     </div>
-
      @include('partials.breadcrumbs')
-
     <div class="table-responsive">
         <table class="table">
             <thead>
@@ -47,7 +45,9 @@
                     <th scope="col" class="table-header" data-id="tags" data-sort_type="asc"><i class="fas fa-tags"></i> Tags</th>
                     <th scope="col" class="table-header" data-id="size" data-sort_type="asc">File Size</th>
                     <th scope="col" class="table-header" data-id="date" data-sort_type="asc">Date Uploaded</th>
-                    <th scope="col" class="table-header" data-id="date" data-sort_type="asc">Actions</th>
+                    @role('administrator')
+                    <th scope="col" class="table-header" data-id="" data-sort_type="asc">Option</th>
+                    @endrole
                 </tr>
             </thead>
             <tbody id="table-content">
