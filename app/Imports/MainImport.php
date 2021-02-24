@@ -13,7 +13,7 @@ class MainImport implements WithMultipleSheets
     {
         return [
             'files' => new FilesImport(),
-            'folders' => new FoldersImport(),
+            // 'folders' => new FoldersImport(),
         ];
         
     }

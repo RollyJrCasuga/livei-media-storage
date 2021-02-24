@@ -17,7 +17,7 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             @role('administrator')
-                <a class="dropdown-item" href="/">Manage Users</a>
+                <a class="dropdown-item" href="/user">Manage Users</a>
             @endrole
             <a class="dropdown-item" href="/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     Logout

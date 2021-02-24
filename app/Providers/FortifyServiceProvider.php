@@ -40,6 +40,7 @@ class FortifyServiceProvider extends ServiceProvider
             $user = User::where('email', $request->email)->first();
                 if ($user &&
                     Hash::check($request->password, $user->password)) {
+                    // dd($user);
                     return $user;
                 }
         });

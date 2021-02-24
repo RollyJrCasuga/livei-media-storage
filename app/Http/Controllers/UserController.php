@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -14,7 +15,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::all();
+        return view('user.index',compact('users'));
     }
 
     /**
@@ -24,7 +26,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('user.create');
     }
 
     /**
@@ -35,7 +37,38 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+            'account_type' => 'required',
+        ]);
+    
+        $first_name = $request->get('first_name');
+        $last_name = $request->get('last_name');
+        $email = $request->get('email');
+        $password = $request->get('password');
+        $type = $request->get('account_type');
+
+        $user = User::create([
+            'first_name' => $first_name,
+            'last_name' => $last_name,
+            'email' => $email,
+            'password' => Hash::make($password),
+        ]);
+            $user->email_verified_at = now();
+            $user->save();
+
+        switch ($type){
+            case 'Admin':
+                $user->assignRole('administrator');
+                break;
+            case 'Staff';
+                $user->assignRole('staff');
+                break;
+        }
+        return redirect()->route('user.index');
     }
 
     /**
@@ -46,7 +79,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        return view('user.show', compact('user'));
     }
 
     /**
@@ -57,7 +90,33 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        $validated = $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'password' => 'required',
+            'account_type' => 'required',
+        ]);
+    
+        $first_name = $request->get('first_name');
+        $last_name = $request->get('last_name');
+        $password = $request->get('password');
+        $type = $request->get('account_type');
+        
+        $file->update([
+            'first_name' => $first_name,
+            'last_name' => $last_name,
+            'email' => $email,
+            'password' => Hash::make($password),
+        ]);
+        switch ($type){
+            case 'Admin':
+                $user->assignRole('administrator');
+                break;
+            case 'Staff';
+                $user->assignRole('staff');
+                break;
+        }
+        return redirect()->route('user.index');
     }
 
     /**
@@ -80,6 +139,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+        return redirect()->route('user.index');
     }
 }

@@ -26,7 +26,7 @@ class PermissionSeeder extends Seeder
             'password' => bcrypt('liveiadmin'),
             'email_verified_at' => now(),
         ]);
-        $user->assignRole($role1, $role2, $role3);
+        $user->assignRole($role1);
 
         $user = User::create([
             'first_name' => 'Staff',
@@ -35,6 +35,6 @@ class PermissionSeeder extends Seeder
             'password' => bcrypt('liveistaff'),
             'email_verified_at' => now(),
     ]);
-        $user->assignRole($role2, $role3);
+        $user->assignRole($role2);
     }
 }

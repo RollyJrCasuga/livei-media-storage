@@ -22,4 +22,4 @@ Route::get('/file/import', [FileController::class, 'importView'])->name('file.im
 Route::post('/file/import', [FileController::class, 'import'])->name('file.import')->middleware('auth');
 
 Route::resource('file', 'FileController')->middleware('auth');
-
+Route::resource('user', 'UserController')->middleware('auth');

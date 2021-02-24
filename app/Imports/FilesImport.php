@@ -19,6 +19,7 @@ class FilesImport implements ToCollection, WithHeadingRow
         foreach ($rows as $row) {
             if(File::where('id', $row['id'])->exists()){
                 // update
+                // dd('update');
                 $file = File::find($row['id']);
                 if(auth()->user()->hasRole('youtube')){
                     $root_folder = 'youtube';
