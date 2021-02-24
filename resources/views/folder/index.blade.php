@@ -40,6 +40,7 @@
                 <th scope="col" class="table-header" data-id="tags"><i class="fas fa-tags"></i> Tags</th>
                 <th scope="col" class="table-header" data-id="size">File Size</th>
                 <th scope="col" class="table-header" data-id="date">Date Uploaded</th>
+                <th scope="col" class="" data-id="">Options</th>
             </tr>
         </thead>
         <tbody id="table-content">

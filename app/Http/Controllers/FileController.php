@@ -50,6 +50,10 @@ class FileController extends Controller
             'files' => 'required|max:15000000',
             'files.*' => 'mimes:mp4,jpeg,jpg,png'
         ]);
+        // $validated = $request->validate([
+        //     'files' => 'required|max:15000000',
+        //     'files.*' => 'mimes:mp4,jpeg,jpg,png'
+        // ]);
         
         
         if ($validator->fails()) {
@@ -64,12 +68,13 @@ class FileController extends Controller
             return response()->json(['error' => 'upload error', 'url' => url()->previous()]);
         }
 
-        if(auth()->user()->hasRole('youtube')){
-            $root_folder = 'youtube';
-        }
-        elseif(auth()->user()->hasRole('accounting')){
-            $root_folder = 'acounting';
-        }
+        // if(auth()->user()->hasRole('youtube')){
+        //     $root_folder = 'youtube';
+        // }
+        // elseif(auth()->user()->hasRole('accounting')){
+        //     $root_folder = 'acounting';
+        // }
+        $root_folder = 'youtube';
 
         $folder_id = $request->get('folder_id');
 
@@ -98,28 +103,29 @@ class FileController extends Controller
                     session()->flash('message', 'File name already exists in the database, please change the file name.');
                 }
                 else{
-                    $create_path = public_path($folder_path);
-                    $file->move($create_path, $file_name);
-                    $file_path= $folder_path . $file_name;
-                    // $file_path = '/media/' . $user . '/' . $file_name;
+                    if (!($validator->fails())){
+                        $create_path = public_path($folder_path);
+                        $file->move($create_path, $file_name);
+                        $file_path= $folder_path . $file_name;
+                        // $file_path = '/media/' . $user . '/' . $file_name;
 
-                    $file = File::create([
-                        'name' => $file_name,
-                        'mime_type' => $mime_type,
-                        'file_path' =>  $file_path,
-                        'file_size' => $file_size,
-                    ]);
+                        $file = File::create([
+                            'name' => $file_name,
+                            'mime_type' => $mime_type,
+                            'file_path' =>  $file_path,
+                            'file_size' => $file_size,
+                        ]);
 
-                    $file->folder_id= $folder_id;
-                    $file->save();
+                        $file->folder_id= $folder_id;
+                        $file->save();
 
-                    if ($request->tags) {
-                        $tags = $this->decodeTag($request->tags);
-                        $file->attachTags($tags);
+                        if ($request->tags) {
+                            $tags = $this->decodeTag($request->tags);
+                            $file->attachTags($tags);
+                        }
                     }
+                    
                 }
-
-                
             }
             if ($folder_id) {
                 $url = route('folder.show', $folder_id);
@@ -181,12 +187,13 @@ class FileController extends Controller
         }
 
         $file_name = $request->get('name');
-        if(auth()->user()->hasRole('youtube')){
-            $root_folder = 'youtube';
-        }
-        elseif(auth()->user()->hasRole('accounting')){
-            $root_folder = 'accounting';
-        }
+        // if(auth()->user()->hasRole('youtube')){
+        //     $root_folder = 'youtube';
+        // }
+        // elseif(auth()->user()->hasRole('accounting')){
+        //     $root_folder = 'accounting';
+        // }
+        $root_folder = 'youtube';    
 
         $old_path = $file->file_path;
         if ($file->folder_id) {

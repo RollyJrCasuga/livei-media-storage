@@ -15,8 +15,13 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-        return view('user.index',compact('users'));
+        if(auth()->user()->hasRole('administrator')){
+            $users = User::all();
+            return view('user.index',compact('users'));
+        }
+        else{
+            return redirect()->route('home');
+        }
     }
 
     /**
@@ -79,7 +84,12 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return view('user.show', compact('user'));
+        if(auth()->user()->hasRole('administrator')){
+            return view('user.show', compact('user'));
+        }
+        else{
+            return redirect()->route('home');
+        }
     }
 
     /**
@@ -89,6 +99,18 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(User $user)
+    {
+        
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, User $user)
     {
         $validated = $request->validate([
             'first_name' => 'required',
@@ -102,33 +124,21 @@ class UserController extends Controller
         $password = $request->get('password');
         $type = $request->get('account_type');
         
-        $file->update([
+        // dd($request);
+        $user->update([
             'first_name' => $first_name,
             'last_name' => $last_name,
-            'email' => $email,
             'password' => Hash::make($password),
         ]);
         switch ($type){
             case 'Admin':
-                $user->assignRole('administrator');
+                $user->syncRoles('administrator');
                 break;
             case 'Staff';
-                $user->assignRole('staff');
+                $user->syncRoles('staff');
                 break;
         }
         return redirect()->route('user.index');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, User $user)
-    {
-        //
     }
 
     /**

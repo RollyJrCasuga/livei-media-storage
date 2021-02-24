@@ -2,7 +2,7 @@
 @section('content')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item active" aria-current="page">Manage Users</li>
+            <li class="breadcrumb-item active" aria-current="page"><h4>Manage Users</h4></li>
         </ol>
     </nav>
     <div class="col-md-6">

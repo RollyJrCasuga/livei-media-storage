@@ -10614,6 +10614,14 @@ a {
   border-color: var(--tags-focus-border-color);
 }
 
+.create .card {
+  width: 100%;
+}
+@media (min-width: 768px) {
+  .create .card {
+    width: 45%;
+  }
+}
 .create .file-upload {
   width: 300px;
 }
@@ -10717,6 +10725,15 @@ a {
 .login .card .card-header {
   padding: 0 2rem;
 }
+.login .card .card-body {
+  padding: 2rem;
+  padding-top: 1rem;
+}
+@media (min-width: 768px) {
+  .login .card .card-body {
+    padding: 1.25rem;
+  }
+}
 .login img {
   width: 80%;
   height: 50%;
@@ -10810,4 +10827,17 @@ a {
 .lightbox button {
   width: auto;
   box-shadow: none;
+}
+
+.user-edit .card,
+.user-create .card {
+  width: 100%;
+  padding: 1rem;
+}
+@media (min-width: 768px) {
+  .user-edit .card,
+.user-create .card {
+    width: 45%;
+    padding: 1rem;
+  }
 }

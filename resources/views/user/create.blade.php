@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('content')
-<div class="create d-flex justify-content-center mt-5">
+<div class="user-create d-flex justify-content-center mt-5">
     <div class="card">
     <div class="card-header">
     <a class="btn btn-light mb-2" href="{{ url()->previous() }}"><i class="fas fa-arrow-left"></i></a>
@@ -10,6 +10,15 @@
     <div class="card-body">
         <form id="upload-form" method="POST" action="{{ route('user.store') }}" enctype="multipart/form-data">
             @csrf
+            @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
             <div class="form-group">
                 <label for="">First Name:</label>
                 <input type="text" class="form-control" name="first_name"/>

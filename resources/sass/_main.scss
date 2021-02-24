@@ -86,6 +86,12 @@ a {
 
 //create
 .create {
+    .card {
+        width: 100%;
+        @include media(md) {
+            width: 45%;
+        }
+    }
     .file-upload {
         width: 300px;
     }
@@ -190,6 +196,14 @@ a {
         .card-header {
             padding: 0 2rem;
         }
+        .card-body {
+            padding: 2rem;
+            padding-top: 1rem;
+            @include media(md) {
+                padding: 1.25rem;
+                // padding-top: 0.25rem;
+            }
+        }
     }
     img {
         width: 80%;
@@ -292,5 +306,17 @@ a {
     button {
         width: auto;
         box-shadow: none;
+    }
+}
+
+.user-edit,
+.user-create {
+    .card {
+        width: 100%;
+        padding: 1rem;
+        @include media(md) {
+            width: 45%;
+            padding: 1rem;
+        }
     }
 }

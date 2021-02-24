@@ -42,12 +42,13 @@ class FolderController extends Controller
         $folder_name = $request->get('name');
         $parent_id = $request->get('parent_id');
 
-        if(auth()->user()->hasRole('youtube')){
-            $root_folder = 'youtube';
-        }
-        elseif(auth()->user()->hasRole('accounting')){
-            $root_folder = 'accounting';
-        }
+        // if(auth()->user()->hasRole('youtube')){
+        //     $root_folder = 'youtube';
+        // }
+        // elseif(auth()->user()->hasRole('accounting')){
+        //     $root_folder = 'accounting';
+        // }
+        $root_folder = 'youtube';
         
         if ($parent_id) {
             $parent_folder = Folder::firstWhere('id', $parent_id);
@@ -117,7 +118,8 @@ class FolderController extends Controller
     {
         $folder_path = $folder->folder_path;
         if (auth()->user()->hasRole('administrator')){
-            $delete_folder = rmdir(public_path($folder_path));
+            // $delete_folder = rmdir(public_path($folder_path));
+            $delete_folder = FileStorage::deleteDirectory(public_path($folder_path));
             if(!($delete_folder)){
                 session()->flash('alert-class', 'danger');
                 session()->flash('message', 'Error deleting folder!');
