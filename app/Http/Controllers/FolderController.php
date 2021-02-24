@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Spatie\Tags\Tag;
 use App\Models\Folder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File as FileStorage;
 
 class FolderController extends Controller
@@ -58,7 +59,7 @@ class FolderController extends Controller
 
         $create_path = public_path($folder_path);
         if(!FileStorage::isDirectory($create_path)){
-            FileStorage::makeDirectory($create_path, 0777, true, true);
+            FileStorage::makeDirectory($create_path, 0775, true, true);
         }
 
         $folder = Folder::create([
@@ -116,6 +117,12 @@ class FolderController extends Controller
     {
         $folder_path = $folder->folder_path;
         if (auth()->user()->hasRole('administrator')){
+            $delete_folder = rmdir(public_path($folder_path));
+            if(!($delete_folder)){
+                session()->flash('alert-class', 'danger');
+                session()->flash('message', 'Error deleting folder!');
+                return redirect()->back();
+            }
             foreach ($folder->files as $file) {
                 $file->delete();
             }
@@ -126,8 +133,7 @@ class FolderController extends Controller
                 $folder->delete();
             }
             $folder->delete();
-            FileStorage::deleteDirectory($folder_path);
-            return redirect()->route('home');
+            return redirect()->back();
         }
         else{
             session()->flash('alert-class', 'danger');

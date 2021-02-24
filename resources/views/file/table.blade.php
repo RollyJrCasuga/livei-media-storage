@@ -138,7 +138,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <p>loading...</p>
+        <p class="body">loading...</p>
       </div>
     </div>
   </div>

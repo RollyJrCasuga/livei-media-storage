@@ -171,8 +171,10 @@ a {
         @include media(md) {
             top: 2rem;
         }
-        p {
-            margin-top: 0.1rem;
+        .body {
+            p {
+                margin-top: 0.1rem;
+            }
         }
     }
 }
