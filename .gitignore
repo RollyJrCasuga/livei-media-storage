@@ -5,7 +5,6 @@
 /vendor
 /public/media
 /storage/14tb
-/storage/app
 .env
 .env.backup
 .phpunit.result.cache
