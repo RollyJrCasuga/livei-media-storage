@@ -3,6 +3,9 @@
 /public/storage
 /storage/*.key
 /vendor
+/public/media
+/storage/14tb
+/storage/app
 .env
 .env.backup
 .phpunit.result.cache
@@ -12,6 +15,3 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 .vscode
-/public/media
-/storage/14tb
-/storage/app
