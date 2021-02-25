@@ -25,7 +25,7 @@
                 <div class="dropdown">
                 @role('administrator')
                 <button class="btn btn-light" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-file-import"></i> Import/Export
+                    <i class="fas fa-file-import"></i>  Import/Export
                 </button>
                 @endrole
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">

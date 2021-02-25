@@ -35,7 +35,7 @@
                 <div class="form-group">
                     <label for="">Tags:</label>
                     <input id="tags" type="text" name="tags" class="tagify--outside">
-                    <button class="mt-3 btn btn-danger tags--removeAllBtn" type="button"><i class="fas fa-tags"></i> Remove all tags</button>
+                    <button class="mt-3 btn btn-light tags--removeAllBtn" type="button"><i class="fas fa-tags"></i> Remove all tags</button>
                 </div>
                 <div class="form-group">
                     <div class="progress">

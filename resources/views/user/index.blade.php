@@ -2,7 +2,8 @@
 @section('content')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item active" aria-current="page"><h4>Manage Users</h4></li>
+            <li class="breadcrumb-item" aria-current="page"><a href="{{ route('home') }}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Manage Users</li>
         </ol>
     </nav>
     <div class="col-md-6">
