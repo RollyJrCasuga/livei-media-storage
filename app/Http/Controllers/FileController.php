@@ -46,15 +46,16 @@ class FileController extends Controller
      */
     public function store(Request $request)
     {
+        if(!($request->tags)){
+            session()->flash('alert-class', 'danger');
+            session()->flash('message', 'Please add tags. Note: File resolution tags is mandatory (ex. 4k, 8k etc.)');
+            return response()->json(['error' => 'upload error', 'url' => url()->previous()]);
+        }
+
         $validator = Validator::make($request->all(), [
             'files' => 'required|max:15000000',
             'files.*' => 'mimes:mp4,jpeg,jpg,png'
         ]);
-        // $validated = $request->validate([
-        //     'files' => 'required|max:15000000',
-        //     'files.*' => 'mimes:mp4,jpeg,jpg,png'
-        // ]);
-        
         
         if ($validator->fails()) {
             session()->flash('alert-class', 'danger');
@@ -62,18 +63,6 @@ class FileController extends Controller
             return response()->json(['error' => 'upload error', 'url' => url()->previous()]);
         }
 
-        if(!($request->tags)){
-            session()->flash('alert-class', 'danger');
-            session()->flash('message', 'Please add tags. Note: File resolution tags is mandatory (ex. 4k, 8k etc.)');
-            return response()->json(['error' => 'upload error', 'url' => url()->previous()]);
-        }
-
-        // if(auth()->user()->hasRole('youtube')){
-        //     $root_folder = 'youtube';
-        // }
-        // elseif(auth()->user()->hasRole('accounting')){
-        //     $root_folder = 'acounting';
-        // }
         $root_folder = 'youtube';
 
         $folder_id = $request->get('folder_id');
