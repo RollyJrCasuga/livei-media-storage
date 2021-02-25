@@ -75,22 +75,24 @@
     <td>{{ $file->file_size }}</td>
     <td>{{ $file->created_at->format('M j, Y h:i:s A') }}</td>
     <td>
-        @role('administrator')
+        {{-- @role('administrator') --}}
         <div class="dropdown">
             <button class="btn btn-light table-button" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-ellipsis-v"></i>
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="{{ route('file.edit', $file->id) }}"><i class="far fa-edit"></i> View/Edit</a>
                 <a class="dropdown-item" href="{{ asset($file->file_path) }}" download><i class="fas fa-download"></i> Download</a>
-                <form action="{{ route('file.destroy', $file->id) }}" method="post">
-                    @csrf
-                    @method('DELETE')
-                    <button class="dropdown-item btn btn-light" type="submit"><i class="far fa-trash-alt"></i> Delete</button>
-                </form>
+                @role('administrator')
+                    <a class="dropdown-item" href="{{ route('file.edit', $file->id) }}"><i class="far fa-edit"></i> View/Edit</a>
+                    <form action="{{ route('file.destroy', $file->id) }}" method="post">
+                        @csrf
+                        @method('DELETE')
+                        <button class="dropdown-item btn btn-light" type="submit"><i class="far fa-trash-alt"></i> Delete</button>
+                    </form>
+                @endrole
             </div>
         </div>
-        @endrole
+        {{-- @endrole --}}
     </td>
 </tr>
 @endforeach
