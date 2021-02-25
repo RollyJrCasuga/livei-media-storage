@@ -20,7 +20,7 @@ a {
     color: $dark-grey;
 }
 .btn {
-    font-weight: 350;
+    font-weight: 300;
     .btn-primary {
         color: white;
     }
@@ -40,10 +40,10 @@ a {
         margin: auto 0;
     }
     a {
-        &:hover {
-            text-decoration: none;
-            color: $grey;
-        }
+        // &:hover {
+        //     text-decoration: none;
+        //     color: $grey;
+        // }
     }
     .dropdown-menu {
         left: -5rem;
@@ -225,6 +225,7 @@ a {
     }
     .forgot-password-btn,
     .reset-btn {
+        margin-top: 1rem;
         width: 141px;
     }
 }
@@ -290,6 +291,10 @@ a {
         }
     }
     .dropdown-menu {
+        a,
+        button {
+            font-weight: 300;
+        }
         button {
             width: 100%;
             box-shadow: none;

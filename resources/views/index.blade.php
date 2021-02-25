@@ -37,7 +37,8 @@
         </div>
     </div>
      @include('partials.breadcrumbs')
-    <div class="table-responsive">
+    <div class="d-flex justify-content-center">
+        <div class="table-responsive">
         <table class="table">
             <thead>
                 <tr>
@@ -57,6 +58,7 @@
         <div class="d-flex justify-content-center">
             {{ $files->links() }}
         </div>
+    </div>
     </div>
 </div>
 @endsection
