@@ -11,7 +11,7 @@
   @if (config('app.env') == 'local')
     <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css" />
   @else
-    <link rel="stylesheet" href="{{asset(mix('css/app.css'), true)}}">
+    <link rel="stylesheet" href="{{mix('css/app.css')}}">
   @endif
   @stack('styles')
 </head>
@@ -28,7 +28,7 @@
   @if (config('app.env') == 'local')
     <script src="{{asset('js/app.js')}}"></script>
   @else
-    <script src="{{asset(mix('js/app.js'), true)}}"></script>
+    <script src="{{mix('js/app.js')}}"></script>
   @endif
   @stack('scripts')
 </body>
