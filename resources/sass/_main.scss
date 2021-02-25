@@ -204,6 +204,9 @@ a {
                 // padding-top: 0.25rem;
             }
         }
+        a {
+            padding-left: 0px;
+        }
     }
     img {
         width: 80%;
@@ -214,6 +217,10 @@ a {
     }
     button {
         width: 100px;
+    }
+    .forgot-password-btn,
+    .reset-btn {
+        width: 141px;
     }
 }
 

@@ -10734,6 +10734,9 @@ a {
     padding: 1.25rem;
   }
 }
+.login .card a {
+  padding-left: 0px;
+}
 .login img {
   width: 80%;
   height: 50%;
@@ -10745,6 +10748,10 @@ a {
 }
 .login button {
   width: 100px;
+}
+.login .forgot-password-btn,
+.login .reset-btn {
+  width: 141px;
 }
 
 .breadcrumb {

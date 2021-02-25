@@ -31,8 +31,13 @@
             <div class="form-group">
             <label for="">Account Type</label>
             <select id="" class="form-control" name="account_type">
-                <option>Staff</option>
-                <option>Admin</option>
+                @if ($user->hasRole('administrator'))
+                    <option>Admin</option>
+                    <option>Staff</option>
+                @else
+                    <option>Staff</option>
+                    <option>Admin</option>
+                @endif
             </select>
             </div>
             <div class="form-group file-name">
@@ -40,7 +45,7 @@
                 <input type="text" class="form-control" name="password" value=""/>
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-primary"><i class="far fa-edit"></i> Update</button>
+                <button type="submit" class="btn btn-success"><i class="far fa-edit"></i> Update</button>
             </div>  
         </form>
     </div>
