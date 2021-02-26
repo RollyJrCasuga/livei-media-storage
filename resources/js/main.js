@@ -66,3 +66,16 @@ window.getTags = (inputTagify = null) => {
 function setTags(tags = []) {
     window.tagsWhiteList = tags;
 }
+
+// auto hide flash messages
+window.autoHideAlert = (time = 2000) => {
+    setTimeout(() => {
+        $(".flash-message #alert").each(function (index) {
+            $(this)
+                .fadeTo(500, 0)
+                .slideUp(500, function () {
+                    $(this).remove();
+                });
+        });
+    }, time);
+};

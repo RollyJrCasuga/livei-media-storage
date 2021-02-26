@@ -179,6 +179,7 @@ return [
 
 
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        Pawlox\VideoThumbnail\VideoThumbnailServiceProvider::class
 
     ],
 
@@ -232,7 +233,9 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'VideoThumbnail' => Pawlox\VideoThumbnail\Facade\VideoThumbnail::class
 
     ],
 

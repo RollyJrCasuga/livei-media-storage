@@ -12,6 +12,7 @@ use App\Imports\FilesImport;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
+use Pawlox\VideoThumbnail\Facade\VideoThumbnail;
 use Illuminate\Support\Facades\File as FileStorage;
 
 class FileController extends Controller
@@ -78,6 +79,9 @@ class FileController extends Controller
 
             foreach ($files as $file) {
                 $file_name = $file->getClientOriginalName();
+                $name_only = pathinfo($file_name, PATHINFO_FILENAME);
+                $exten_only = pathinfo($file_name, PATHINFO_EXTENSION);
+
                 $mime_type = $file->getClientMimeType();
                 $file_size = $file->getSize();
                 $file_size = number_format($file_size / 1048576,2)."MB";
@@ -96,13 +100,25 @@ class FileController extends Controller
                         $create_path = public_path($folder_path);
                         $file->move($create_path, $file_name);
                         $file_path= $folder_path . $file_name;
-                        // $file_path = '/media/' . $user . '/' . $file_name;
 
+                        // VideoThumbnail::createThumbnail($videoUrl, $storageUrl, $fileName, $second, $width = 640, $height = 480);
+                        // if($save_video){
+                        //     $thumbnail = $name_only;
+                        //     $thumbnail_path = $folder_path.'thumbnail/';
+                        //     $generate_thumbnail = VideoThumbnail::createThumbnail(public_path('/media/youtube/Confetti   Green Screen Effect (2).mp4'), public_path('/media/youtube/'), 'sample.jpg', 10, 640, 480);
+                        //     if(!$generate_thumbnail){
+                        //         session()->flash('alert-class', 'danger');
+                        //         session()->flash('message', 'Can not generate thumbnail');
+                        //     }
+                        // }
+                        
                         $file = File::create([
                             'name' => $file_name,
                             'mime_type' => $mime_type,
                             'file_path' =>  $file_path,
                             'file_size' => $file_size,
+                            'thumbnail' => $thumbnail.'.jpg',
+                            'thumbnail_path' => $thumbnail_path.$thumbnail.'.jpg',
                         ]);
 
                         $file->folder_id= $folder_id;

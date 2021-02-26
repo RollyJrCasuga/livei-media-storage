@@ -11,8 +11,7 @@ class File extends Model
 {
     use HasFactory, HasTags;
 
-    protected $fillable = ['name', 'mime_type', 'file_path', 'file_size'];
-
+    protected $fillable = ['name', 'mime_type', 'file_path', 'file_size', 'thumbnail', 'thumbnail_path'];
 
     public function folder() {
         return $this->belongsTo(Folder::class);

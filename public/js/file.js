@@ -28,5 +28,7 @@ if (fileUploadBtn) {
     fileChosen.textContent = this.files[0].name;
   });
 }
+
+autoHideAlert();
 /******/ })()
 ;

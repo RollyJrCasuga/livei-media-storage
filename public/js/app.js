@@ -1961,7 +1961,19 @@ window.getTags = function () {
 function setTags() {
   var tags = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   window.tagsWhiteList = tags;
-}
+} // auto hide flash messages
+
+
+window.autoHideAlert = function () {
+  var time = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 2000;
+  setTimeout(function () {
+    $(".flash-message #alert").each(function (index) {
+      $(this).fadeTo(500, 0).slideUp(500, function () {
+        $(this).remove();
+      });
+    });
+  }, time);
+};
 
 /***/ }),
 

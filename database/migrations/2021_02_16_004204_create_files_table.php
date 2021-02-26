@@ -20,6 +20,8 @@ class CreateFilesTable extends Migration
             $table->string('mime_type')->nullable();
             $table->string('file_path')->nullable();
             $table->string('file_size')->nullable();
+            $table->string('thumbnail')->nullable();
+            $table->string('thumbnail_path')->nullable();
             $table->timestamps();
         });
     }
