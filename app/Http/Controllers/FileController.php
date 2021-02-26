@@ -100,50 +100,47 @@ class FileController extends Controller
                         $save_video = $file->move($create_path, $file_name);
                         $file_path= $folder_path . $file_name;
 
-                       
                         if($save_video){
-                        $thumbnail = $name_only;
-                        $new_folder = $folder_path.'thumbnail/';
-                        $create_path = public_path($new_folder);
+                            $file = File::create([
+                            'name' => $file_name,
+                            'mime_type' => $mime_type,
+                            'file_path' =>  $file_path,
+                            'file_size' => $file_size,
+                            ]);
 
-                        if(!FileStorage::isDirectory($create_path)){
-                            FileStorage::makeDirectory($create_path, 0775, true, true);
-                        }
+                            $file->folder_id= $folder_id;
+                            $file->save();
 
-                        
-                        $thumbnail_path = public_path($new_folder).$thumbnail.'.jpg';
+                            if ($request->tags) {
+                                $tags = $this->decodeTag($request->tags);
+                                $file->attachTags($tags);
+                            }
+                            
+                            $thumbnail = 'video-'.$file->id.'.jpg';
+                            // $new_folder = $folder_path.'thumbnail/';
+                            $new_folder = '/media/'. $root_folder . '/thumbnail/';
+                            $create_path = public_path($new_folder);
 
-                        $create_path = public_path($folder_path);
-                        
+                            if(!FileStorage::isDirectory($create_path)){
+                                FileStorage::makeDirectory($create_path, 0775, true, true);
+                            }
 
-                        $ffmpeg = FFMpeg::create();
-                        $video = $ffmpeg->open(public_path($file_path));
-                        $generate_thumbnail = $video->frame(TimeCode::fromSeconds(2))
-                                                    ->save($thumbnail_path);
+                            $thumbnail_path = public_path($new_folder).$thumbnail;
+
+                            $create_path = public_path($folder_path);
+                            
+                            $ffmpeg = FFMpeg::create();
+                            $video = $ffmpeg->open(public_path($file_path));
+                            $generate_thumbnail = $video->frame(TimeCode::fromSeconds(2))
+                                                        ->save($thumbnail_path);
 
                             if(!$generate_thumbnail){
                                 session()->flash('alert-class', 'danger');
                                 session()->flash('message', 'Can not generate thumbnail');
                             }
-                        }
-                    
-
-
-                        $file = File::create([
-                            'name' => $file_name,
-                            'mime_type' => $mime_type,
-                            'file_path' =>  $file_path,
-                            'file_size' => $file_size,
-                            'thumbnail' => $thumbnail.'.jpg',
-                            'thumbnail_path' => $new_folder.$thumbnail.'.jpg',
-                        ]);
-
-                        $file->folder_id= $folder_id;
-                        $file->save();
-
-                        if ($request->tags) {
-                            $tags = $this->decodeTag($request->tags);
-                            $file->attachTags($tags);
+                            $file->thumbnail = $thumbnail;
+                            $file->thumbnail_path = $new_folder.$thumbnail;
+                            $file->save();
                         }
                     }
                     
@@ -222,11 +219,9 @@ class FileController extends Controller
             $new_path = $parent_folder->folder_path . '/' . $file_name;
         } else {
             $new_path = '/media/'. $root_folder . '/' . $file_name;
-            $thumb_new_path = '/media/'. $root_folder . '/thumbnail/' . $thumbnail;
         }
 
         FileStorage::move(public_path($old_path), public_path($new_path));
-        FileStorage::move(public_path($thumb_old_path), public_path($thumb_new_path));
         $file->update([
             'name' => $file_name, 
             'file_path' => $new_path

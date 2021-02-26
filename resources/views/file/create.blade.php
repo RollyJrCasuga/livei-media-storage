@@ -67,8 +67,8 @@
             percent.html(percentVal);
         },
         complete: function (xhr) {
-            // window.location.href = xhr.responseJSON.url;
-            window.location.reload();
+            window.location.href = xhr.responseJSON.url;
+            // window.location.reload();
         }
     });
 </script>
