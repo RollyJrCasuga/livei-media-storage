@@ -1,7 +1,7 @@
 {
-    "/js/app.js": "/js/app.js?id=ea606a5ea1200bafcda7",
-    "/js/file.js": "/js/file.js?id=090db13ed6647aac96db",
-    "/js/search.js": "/js/search.js?id=0be5df92c0762cc4619e",
-    "/css/app.css": "/css/app.css?id=4476fab6289e912555e7",
-    "/css/view.css": "/css/view.css?id=55c989fbba971f886e11"
+    "/js/app.js": "/js/app.js",
+    "/js/file.js": "/js/file.js",
+    "/js/search.js": "/js/search.js",
+    "/css/app.css": "/css/app.css",
+    "/css/view.css": "/css/view.css"
 }

@@ -1,5 +1,6 @@
 @extends('layout')
 @section('content')
+
 <div id="home" class="home">
     <div class="row mt-3">
         <div class="col-md-6">
@@ -62,6 +63,7 @@
     </div>
 </div>
 @endsection
+
 @push('scripts')
 <script src="{{ asset('js/search.js') }}"></script>
 @endpush

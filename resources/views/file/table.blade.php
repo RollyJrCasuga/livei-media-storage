@@ -75,24 +75,24 @@
     <td>{{ $file->file_size }}</td>
     <td>{{ $file->created_at->format('M j, Y h:i:s A') }}</td>
     <td>
-        {{-- @role('administrator') --}}
+        @role('administrator')
         <div class="dropdown">
             <button class="btn btn-light table-button" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-ellipsis-v"></i>
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" href="{{ asset($file->file_path) }}" download><i class="fas fa-download"></i> Download</a>
-                @role('administrator')
+                {{-- @role('administrator') --}}
                     <a class="dropdown-item" href="{{ route('file.edit', $file->id) }}"><i class="far fa-edit"></i> View/Edit</a>
                     <form action="{{ route('file.destroy', $file->id) }}" method="post">
                         @csrf
                         @method('DELETE')
                         <button class="dropdown-item btn btn-light" type="submit"><i class="far fa-trash-alt"></i> Delete</button>
                     </form>
-                @endrole
+                {{-- @endrole --}}
             </div>
         </div>
-        {{-- @endrole --}}
+        @endrole
     </td>
 </tr>
 @endforeach
@@ -100,12 +100,12 @@
 <div class="modal fade lightbox mt-10 mt-md-0" id="lightbox" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">
-      <div class="modal-header">
+      {{-- <div class="modal-header">
           <h5 class="modal-title"></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-      </div>
+      </div> --}}
       <div class="modal-body">
         <p class="body">loading...</p>
       </div>

@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('content')
-<div class="user-create d-flex justify-content-center mt-5">
+<div class="user-create d-flex justify-content-center mt-3 mt-md-5">
     <div class="card">
     <div class="card-header">
     <a class="btn btn-light mb-2" href="{{ url()->previous() }}"><i class="fas fa-arrow-left"></i></a>

@@ -18,7 +18,10 @@ $("body").on("click", ".table-file", function (e) {
                 file_mime +
                 "' /></video><p>" +
                 file_name +
-                "</p>";
+                "</p>" +
+                "<a class='btn btn-primary' href='" +
+                file_src +
+                "' download><i class='fas fa-download'></i> Download</a>";
             $("#lightbox p").html(content);
             break;
         case "image":
@@ -27,7 +30,10 @@ $("body").on("click", ".table-file", function (e) {
                 file_src +
                 "'><p>" +
                 file_name +
-                "</p>";
+                "</p>" +
+                "<a class='btn btn-primary' href='" +
+                file_src +
+                "' download><i class='fas fa-download'></i> Download</a>";
             $("#lightbox p").html(content);
             break;
         case "audio":

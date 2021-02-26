@@ -40,12 +40,6 @@ a {
         list-style-type: none;
         margin: auto 0;
     }
-    a {
-        // &:hover {
-        //     text-decoration: none;
-        //     color: $grey;
-        // }
-    }
     .dropdown-menu {
         left: -5rem;
     }
@@ -90,6 +84,61 @@ a {
     border-color: var(--tags-focus-border-color);
 }
 
+// home
+.home {
+    .col-md-4 {
+        margin-top: 1rem;
+    }
+
+    input {
+        width: 100%;
+        height: 37px;
+        padding-left: 12px;
+        font-family: 200;
+        border-radius: 20px;
+        border: none;
+        background-color: rgb(241, 243, 244);
+        --tags-focus-border-color: grey;
+        @include media(md) {
+            width: 75%;
+        }
+        &::-webkit-input-placeholder {
+            font-weight: 350;
+        }
+    }
+    .tagify {
+        width: 100%;
+        border-radius: 20px;
+        border: none;
+        background-color: rgb(241, 243, 244);
+        --tags-focus-border-color: grey;
+        @include media(md) {
+            width: 75%;
+        }
+    }
+
+    .home-btn {
+        margin: 0;
+    }
+    button {
+        width: 100%;
+        box-shadow: 0 4px 8px 0 rgb(0 0 0 / 10%),
+            1px 2px 20px 0 rgb(0 0 0 / 10%);
+    }
+    nav {
+        font-size: 1.2rem;
+    }
+    .modal {
+        margin-top: 5rem;
+        @include media(md) {
+            top: 2rem;
+        }
+        .modal-body {
+            padding: 0;
+        }
+    }
+}
+
 //create
 .create {
     .card {
@@ -119,6 +168,7 @@ a {
         top: 50%;
         color: #040608;
     }
+
     .tagify__input {
         height: 35px;
         border-radius: 5px;
@@ -152,45 +202,6 @@ a {
     @include media(md) {
         // width: auto;
         height: 480px;
-    }
-}
-
-.home {
-    .col-md-4 {
-        margin-top: 1rem;
-    }
-
-    .tagify {
-        width: 100%;
-        border-radius: 20px;
-        border: none;
-        background-color: rgb(241, 243, 244);
-        --tags-focus-border-color: grey;
-        @include media(md) {
-            width: 75%;
-        }
-    }
-    .home-btn {
-        margin: 0;
-    }
-    button {
-        width: 100%;
-        box-shadow: 0 4px 8px 0 rgb(0 0 0 / 10%),
-            1px 2px 20px 0 rgb(0 0 0 / 10%);
-    }
-    nav {
-        font-size: 1.2rem;
-    }
-    .modal {
-        margin-top: 5rem;
-        @include media(md) {
-            top: 2rem;
-        }
-        .body {
-            p {
-                margin-top: 0.1rem;
-            }
-        }
     }
 }
 
@@ -320,16 +331,31 @@ a {
     }
     .medias {
         width: 100%;
-        height: 28vh;
+        // height: 20rem;
+        height: auto;
         border-radius: 5px;
         @include media(md) {
             width: 100%;
-            height: 623px;
+            // height: 623px;
+            height: 641px;
         }
     }
     button {
         width: auto;
         box-shadow: none;
+    }
+    .body {
+        p,
+        a {
+            margin: 0.5rem 0 0 1rem;
+        }
+        p {
+            font-size: 1rem;
+            font-weight: 400;
+            @include media(md) {
+                font-size: 1.2rem;
+            }
+        }
     }
 }
 
