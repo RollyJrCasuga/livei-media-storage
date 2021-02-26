@@ -68,6 +68,7 @@
         },
         complete: function (xhr) {
             window.location.href = xhr.responseJSON.url;
+            // window.location.reload();
         }
     });
 </script>

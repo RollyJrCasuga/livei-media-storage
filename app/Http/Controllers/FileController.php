@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
+use FFMpeg\FFMpeg;
 use App\Models\File;
 use Spatie\Tags\Tag;
 use App\Models\Folder;
@@ -10,6 +12,7 @@ use App\Imports\MainImport;
 use App\Exports\FilesExport;
 use App\Imports\FilesImport;
 use Illuminate\Http\Request;
+use FFMpeg\Coordinate\TimeCode;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
 use Pawlox\VideoThumbnail\Facade\VideoThumbnail;
@@ -47,27 +50,23 @@ class FileController extends Controller
      */
     public function store(Request $request)
     {
-        if(!($request->tags)){
-            session()->flash('alert-class', 'danger');
-            session()->flash('message', 'Please add tags. Note: File resolution tags is mandatory (ex. 4k, 8k etc.)');
-            return response()->json(['error' => 'upload error', 'url' => url()->previous()]);
-        }
 
-        $validator = Validator::make($request->all(), [
+        $validator = validator($request->all(), [
             'files' => 'required|max:15000000',
-            'files.*' => 'mimes:mp4,jpeg,jpg,png'
+            'files.*' => 'mimes:mp4,jpeg,jpg,png',
+            'tags' => 'required',
+        ],[
+            'tags.required' => 'Please add tags',
         ]);
         
         if ($validator->fails()) {
             session()->flash('alert-class', 'danger');
-            session()->flash('message', 'File not supported. Note: Maximum upload size is 15GB');
+            session()->flash('message', $validator->errors()->all());
             return response()->json(['error' => 'upload error', 'url' => url()->previous()]);
         }
 
         $root_folder = 'youtube';
-
         $folder_id = $request->get('folder_id');
-
         if($files = $request->file('files'))
         {
             if ($folder_id) {
@@ -86,7 +85,8 @@ class FileController extends Controller
                 $file_size = $file->getSize();
                 $file_size = number_format($file_size / 1048576,2)."MB";
                 if ($request->get('name')) {
-                    $file_name = $request->get('name');;
+                    $file_name = $request->get('name');
+                    $name_only = $file_name;
                     $file_type = $file->extension();
                     $file_name = $file_name . '.' . $file_type;
                 }
@@ -96,29 +96,46 @@ class FileController extends Controller
                     session()->flash('message', 'File name already exists in the database, please change the file name.');
                 }
                 else{
-                    if (!($validator->fails())){
                         $create_path = public_path($folder_path);
-                        $file->move($create_path, $file_name);
+                        $save_video = $file->move($create_path, $file_name);
                         $file_path= $folder_path . $file_name;
 
-                        // VideoThumbnail::createThumbnail($videoUrl, $storageUrl, $fileName, $second, $width = 640, $height = 480);
-                        // if($save_video){
-                        //     $thumbnail = $name_only;
-                        //     $thumbnail_path = $folder_path.'thumbnail/';
-                        //     $generate_thumbnail = VideoThumbnail::createThumbnail(public_path('/media/youtube/Confetti   Green Screen Effect (2).mp4'), public_path('/media/youtube/'), 'sample.jpg', 10, 640, 480);
-                        //     if(!$generate_thumbnail){
-                        //         session()->flash('alert-class', 'danger');
-                        //         session()->flash('message', 'Can not generate thumbnail');
-                        //     }
-                        // }
+                       
+                        if($save_video){
+                        $thumbnail = $name_only;
+                        $new_folder = $folder_path.'thumbnail/';
+                        $create_path = public_path($new_folder);
+
+                        if(!FileStorage::isDirectory($create_path)){
+                            FileStorage::makeDirectory($create_path, 0775, true, true);
+                        }
+
                         
+                        $thumbnail_path = public_path($new_folder).$thumbnail.'.jpg';
+
+                        $create_path = public_path($folder_path);
+                        
+
+                        $ffmpeg = FFMpeg::create();
+                        $video = $ffmpeg->open(public_path($file_path));
+                        $generate_thumbnail = $video->frame(TimeCode::fromSeconds(2))
+                                                    ->save($thumbnail_path);
+
+                            if(!$generate_thumbnail){
+                                session()->flash('alert-class', 'danger');
+                                session()->flash('message', 'Can not generate thumbnail');
+                            }
+                        }
+                    
+
+
                         $file = File::create([
                             'name' => $file_name,
                             'mime_type' => $mime_type,
                             'file_path' =>  $file_path,
                             'file_size' => $file_size,
                             'thumbnail' => $thumbnail.'.jpg',
-                            'thumbnail_path' => $thumbnail_path.$thumbnail.'.jpg',
+                            'thumbnail_path' => $new_folder.$thumbnail.'.jpg',
                         ]);
 
                         $file->folder_id= $folder_id;
@@ -130,7 +147,6 @@ class FileController extends Controller
                         }
                     }
                     
-                }
             }
             if ($folder_id) {
                 $url = route('folder.show', $folder_id);
@@ -206,9 +222,11 @@ class FileController extends Controller
             $new_path = $parent_folder->folder_path . '/' . $file_name;
         } else {
             $new_path = '/media/'. $root_folder . '/' . $file_name;
+            $thumb_new_path = '/media/'. $root_folder . '/thumbnail/' . $thumbnail;
         }
 
         FileStorage::move(public_path($old_path), public_path($new_path));
+        FileStorage::move(public_path($thumb_old_path), public_path($thumb_new_path));
         $file->update([
             'name' => $file_name, 
             'file_path' => $new_path

@@ -1,7 +1,7 @@
 @foreach($folders as $folder)
 <tr class='table-row' data-href="{{ route('folder.show', $folder->id) }}">
     <td class='table-data d-flex align-items-center' data-href="{{ route('folder.show', $folder->id) }}">
-        <i class="far fa-folder table-preview"></i>
+        <i class="fas fa-folder icon table-preview"></i>
         <a class="m-2">{{ $folder->name }}</a>
     </td>
     <td></td>
@@ -28,21 +28,6 @@
 
 @foreach($files as $file)
 <tr class='table-row' >
-    {{-- <td data-toggle="modal" data-target="#lightbox-{{ $file->id }}" class='d-flex align-items-center' data-href="{{ route('file.edit', $file->id) }}"> --}}
-    {{-- <td class='d-flex align-items-center' data-href="{{ route('file.edit', $file->id) }}">
-        @if (strpos($file->mime_type, 'audio')  !== false )
-            <audio id="audo-file" class="table-preview" controls>
-                <source src="{{ asset($file->file_path) }}" type="{{ $file->mime_type }}">
-            </audio>
-        @elseif (strpos($file->mime_type, 'video')  !== false )
-            <i class="fas fa-play-circle table-preview"></i>
-        @elseif (strpos($file->mime_type, 'image')  !== false )
-            <img class="table-preview" src="{{ asset($file->file_path) }}" alt="">
-        @else
-            <i class="far fa-file table-preview"></i>
-        @endif
-        <a class="m-2" class="file-name">{{ $file->name }}</a>
-    </td> --}}
     @if (strpos($file->mime_type, 'audio')  !== false )
         <td class='d-flex align-items-center table-file' data-name="{{ $file->name }}" data-src='{{ asset($file->file_path) }}' data-mime='{{ $file->mime_type }}' data-type='audio'>
             <audio id="audo-file" class="table-preview" controls>
@@ -51,7 +36,8 @@
             
     @elseif (strpos($file->mime_type, 'video')  !== false )
         <td class='d-flex align-items-center table-file' data-name="{{ $file->name }}" data-src='{{ asset($file->file_path) }}' data-mime='{{ $file->mime_type }}' data-type='video'>
-            <i class="fas fa-play-circle table-preview"></i>
+            {{-- <i class="fas fa-play-circle table-preview"></i> --}}
+            <img class="table-preview" src="{{ asset($file->thumbnail_path) }}" alt="">
 
     @elseif (strpos($file->mime_type, 'image')  !== false )
         <td class='d-flex align-items-center table-file' data-name="{{ $file->name }}" data-src='{{ asset($file->file_path) }}' data-mime='{{ $file->mime_type }}' data-type='image'>
@@ -59,7 +45,7 @@
 
     @else
         <td class='d-flex align-items-center table-file' data-name="{{ $file->name }}" data-src='{{ asset($file->file_path) }}' data-mime='{{ $file->mime_type }}' data-type='others'>
-            <i class="far fa-file table-preview"></i>
+            <i class="far fa-file table-preview icon"></i>
 
     @endif
         <a class="m-2" class="file-name">{{ $file->name }}</a>

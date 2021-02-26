@@ -118,7 +118,6 @@ class FolderController extends Controller
     {
         $folder_path = $folder->folder_path;
         if (auth()->user()->hasRole('administrator')){
-            // $delete_folder = rmdir(public_path($folder_path));
             $delete_folder = FileStorage::deleteDirectory(public_path($folder_path));
             if(!($delete_folder)){
                 session()->flash('alert-class', 'danger');
