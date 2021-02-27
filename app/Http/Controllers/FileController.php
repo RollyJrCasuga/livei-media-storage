@@ -129,13 +129,13 @@ class FileController extends Controller
 
                             $create_path = public_path($folder_path);
                             
-                            // $ffmpeg = FFMpeg::create();
-                            $ffmpeg = FFMpeg::create(array(
-                                'ffmpeg.binaries'  => '/usr/bin/ffmpeg',
-                                'ffprobe.binaries' => '/usr/bin/ffprobe',
-                                'timeout'          => 3600,
-                                'ffmpeg.threads'   => 12,
-                            ), $logger);
+                            $ffmpeg = FFMpeg::create();
+                            // $ffmpeg = FFMpeg::create(array(
+                            //     'ffmpeg.binaries'  => '/usr/local/bin/ffmpeg',
+                            //     'ffprobe.binaries' => '/usr/local/bin/ffprobe',
+                            //     'timeout'          => 3600,
+                            //     'ffmpeg.threads'   => 12,
+                            // ), $logger);
 
                             $video = $ffmpeg->open(public_path($file_path));
                             $generate_thumbnail = $video->frame(TimeCode::fromSeconds(2))
