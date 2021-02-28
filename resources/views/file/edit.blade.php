@@ -4,7 +4,7 @@
 <link href="{{ asset('css/view.css') }}" rel="stylesheet" type="text/css" />
 @endpush
 @section('content')
-<div class="view d-flex justify-content-center mt-5">
+<div class="view d-flex justify-content-center card-wrapper">
   <div class="card">
     <div class="card-header">
         <a class="btn btn-light mb-2" href="{{ url()->previous() }}"><i class="fas fa-arrow-left"></i></a>

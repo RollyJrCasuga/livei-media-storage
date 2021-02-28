@@ -116,20 +116,20 @@ class FileController extends Controller
                                 $file->attachTags($tags);
                             }
                             
-                            $thumbnail = 'video-'.$file->id.'.jpg';
+                            // $thumbnail = 'video-'.$file->id.'.jpg';
                             // $new_folder = $folder_path.'thumbnail/';
-                            $new_folder = '/media/'. $root_folder . '/thumbnail/';
-                            $create_path = public_path($new_folder);
+                            // $new_folder = '/media/'. $root_folder . '/thumbnail/';
+                            // $create_path = public_path($new_folder);
 
-                            if(!FileStorage::isDirectory($create_path)){
-                                FileStorage::makeDirectory($create_path, 0775, true, true);
-                            }
+                            // if(!FileStorage::isDirectory($create_path)){
+                            //     FileStorage::makeDirectory($create_path, 0775, true, true);
+                            // }
 
-                            $thumbnail_path = public_path($new_folder).$thumbnail;
+                            // $thumbnail_path = public_path($new_folder).$thumbnail;
 
-                            $create_path = public_path($folder_path);
+                            // $create_path = public_path($folder_path);
                             
-                            $ffmpeg = FFMpeg::create();
+                            // $ffmpeg = FFMpeg::create();
                             // $ffmpeg = FFMpeg::create(array(
                             //     'ffmpeg.binaries'  => '/usr/local/bin/ffmpeg',
                             //     'ffprobe.binaries' => '/usr/local/bin/ffprobe',
@@ -137,17 +137,17 @@ class FileController extends Controller
                             //     'ffmpeg.threads'   => 12,
                             // ), $logger);
 
-                            $video = $ffmpeg->open(public_path($file_path));
-                            $generate_thumbnail = $video->frame(TimeCode::fromSeconds(2))
-                                                        ->save($thumbnail_path);
+                            // $video = $ffmpeg->open(public_path($file_path));
+                            // $generate_thumbnail = $video->frame(TimeCode::fromSeconds(2))
+                            //                             ->save($thumbnail_path);
 
-                            if(!$generate_thumbnail){
-                                session()->flash('alert-class', 'danger');
-                                session()->flash('message', 'Can not generate thumbnail');
-                            }
-                            $file->thumbnail = $thumbnail;
-                            $file->thumbnail_path = $new_folder.$thumbnail;
-                            $file->save();
+                            // if(!$generate_thumbnail){
+                            //     session()->flash('alert-class', 'danger');
+                            //     session()->flash('message', 'Can not generate thumbnail');
+                            // }
+                            // $file->thumbnail = $thumbnail;
+                            // $file->thumbnail_path = $new_folder.$thumbnail;
+                            // $file->save();
                         }
                     }
                     
@@ -253,8 +253,19 @@ class FileController extends Controller
         if(file_exists(public_path().$file->file_path)){
             unlink(public_path().$file->file_path);
         }
-        $file->delete();
+        
+        $delete = $file->delete();
+        if(!$delete){
+            session()->flash('alert-class', 'danger');
+            session()->flash('message', 'Delete error!');
+            return redirect()->back();
+        }
+        session()->flash('alert-class', 'success');
+        session()->flash('message', 'File deleted!');
         return redirect()->route('home');
+
+
+        
     }
 
     public function decodeTag($tags){
@@ -308,7 +319,14 @@ class FileController extends Controller
 
     public function import(Request $request){
         $file = $request->file('file')->store('import');
-        Excel::import((new MainImport), $file);
+        $import = Excel::import((new MainImport), $file);
+        if(!$import){
+            session()->flash('alert-class', 'danger');
+            session()->flash('message', 'Import error!');
+            return redirect()->back();
+        }
+        session()->flash('alert-class', 'success');
+        session()->flash('message', 'Import success!');
         return redirect()->route('home');
     }
 

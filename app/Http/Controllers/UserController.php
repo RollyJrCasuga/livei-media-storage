@@ -56,8 +56,6 @@ class UserController extends Controller
         $password = $request->get('password');
         $type = $request->get('account_type');
         
-        $bash = exec('pwd');
-        dd($bash);
         $user = User::create([
             'first_name' => $first_name,
             'last_name' => $last_name,

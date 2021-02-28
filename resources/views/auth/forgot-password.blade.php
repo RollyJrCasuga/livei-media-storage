@@ -4,7 +4,7 @@
 
 <div class="login align-items-center">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-8 d-flex justify-content-center">
             <div class="card">
                 <div class="card-header d-flex justify-content-center login-header">
                     <img src="/images/liveicom.png" alt="">
@@ -41,7 +41,7 @@
                         <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-4">
                                 <button type="submit" class="btn btn-success text-light forgot-password-btn">
-                                    Reset Password
+                                    Reset
                                 </button>
                             </div>
                         </div>

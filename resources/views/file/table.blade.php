@@ -36,8 +36,9 @@
             
     @elseif (strpos($file->mime_type, 'video')  !== false )
         <td class='d-flex align-items-center table-file' data-name="{{ $file->name }}" data-src='{{ asset($file->file_path) }}' data-mime='{{ $file->mime_type }}' data-type='video'>
-            {{-- <i class="fas fa-play-circle table-preview"></i> --}}
-            <img class="table-preview" src="{{ asset($file->thumbnail_path) }}" alt="">
+            <i class="fas fa-play-circle table-preview"></i>
+            {{-- <i class="fab fa-youtube table-preview"></i> --}}
+            {{-- <img class="table-preview" src="{{ asset($file->thumbnail_path) }}" alt=""> --}}
 
     @elseif (strpos($file->mime_type, 'image')  !== false )
         <td class='d-flex align-items-center table-file' data-name="{{ $file->name }}" data-src='{{ asset($file->file_path) }}' data-mime='{{ $file->mime_type }}' data-type='image'>

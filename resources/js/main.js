@@ -79,3 +79,35 @@ window.autoHideAlert = (time = 2000) => {
         });
     }, time);
 };
+
+$(function () {
+    if ($("#lightbox").css("display") == "none") {
+        let media = $(".video-js");
+        // media.pause();
+        console.log("pause");
+    } else {
+        console.log("show");
+    }
+});
+
+jQuery(function () {
+    if ($("#lightbox").css("display") == "block") {
+        let media = $(".video-js");
+        // media.pause();
+        console.log("pause");
+    } else {
+        console.log("show");
+    }
+    s;
+});
+
+// $("body").on("click", "#lightbox", function (e) {
+//     console.log("lightbox");
+//     if ($("#lightbox").css("display") == "block") {
+//         let media = $("video");
+//         // media.pause();
+//         console.log("pause");
+//     } else {
+//         console.log("show");
+//     }
+// });
