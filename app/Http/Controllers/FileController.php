@@ -99,7 +99,6 @@ class FileController extends Controller
                         $create_path = public_path($folder_path);
                         $save_video = $file->move($create_path, $file_name);
                         $file_path= $folder_path . $file_name;
-
                         if($save_video){
                             $file = File::create([
                             'name' => $file_name,
@@ -148,16 +147,24 @@ class FileController extends Controller
                             // $file->thumbnail = $thumbnail;
                             // $file->thumbnail_path = $new_folder.$thumbnail;
                             // $file->save();
+                            if ($folder_id) {
+                                $url = route('folder.show', $folder_id);
+                            } else {
+                                $url = route('home');
+                            }
+                            session()->flash('alert-class', 'success');
+                            session()->flash('message', 'Upload success');
+                            return response()->json(['success' => 'upload success', 'url' => $url]);
                         }
                     }
                     
             }
-            if ($folder_id) {
-                $url = route('folder.show', $folder_id);
-            } else {
-                $url = route('home');
-            }
-            return response()->json(['success' => 'upload success', 'url' => $url]);
+            // if ($folder_id) {
+            //     $url = route('folder.show', $folder_id);
+            // } else {
+            //     $url = route('home');
+            // }
+            // return response()->json(['success' => 'upload success', 'url' => $url]);
         }
         return response()->json(['error' => 'upload error', 'url' => url()->previous()]);
     }
