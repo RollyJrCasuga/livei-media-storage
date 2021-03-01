@@ -53,7 +53,7 @@ class FileController extends Controller
             'files'     => 'required|max:15000000',
             'files.*'   => 'mimes:mp4,jpeg,jpg,png',
             'tags'      => 'required',
-        ],[
+        ], [
             'tags.required' => 'Please add tags',
             'files.*.mimes'   => 'You can only upload with the following file types: mp4, jpeg, jpg, png.',
         ]);
@@ -199,28 +199,21 @@ class FileController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|max:255',
+            'tags' => 'required'
+        ], [
+            'tags.required' => 'Please add tags',
         ]);
 
-        $tags = [];
-        if ($request->tags) {
-            $tags = $this->decodeTag($request->tags);
-            session()->flash('alert-class', 'primary');
-            session()->flash('message', 'Tags updated');
-        } else {
-            if (!auth()->user()->hasRole('administrator')){
-                session()->flash('alert-class', 'danger');
-                session()->flash('message', 'You do not have permission to remove tags');
-                return redirect()->back();
-            }
-        }
+        $name = $request->get('name');
+        $file_name = $name . '.' . pathinfo($file->file_name, PATHINFO_EXTENSION);
 
-        $file_name = $request->get('name');
         // if(auth()->user()->hasRole('youtube')){
         //     $root_folder = 'youtube';
         // }
         // elseif(auth()->user()->hasRole('accounting')){
         //     $root_folder = 'accounting';
         // }
+
         $root_folder = 'youtube';
 
         $old_path = $file->file_path;
@@ -232,11 +225,14 @@ class FileController extends Controller
         }
 
         FileStorage::move(public_path($old_path), public_path($new_path));
+
         $file->update([
-            'name'      => $file_name,
+            'name'      => $name,
+            'file_name' => $file_name,
             'file_path' => $new_path
         ]);
 
+        $tags = $this->decodeTag($request->tags);
         $file->syncTags($tags);
 
         if ($file->folder) {
