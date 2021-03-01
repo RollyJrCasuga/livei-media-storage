@@ -15,13 +15,13 @@ use PhpOffice\PhpSpreadsheet\Cell\Hyperlink;
 use Illuminate\Contracts\Support\Responsable;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class FilesExport implements 
-    FromQuery, 
-    WithMapping, 
-    WithHeadings, 
-    ShouldAutoSize, 
-    Responsable, 
-    WithEvents, 
+class FilesExport implements
+    FromQuery,
+    WithMapping,
+    WithHeadings,
+    ShouldAutoSize,
+    Responsable,
+    WithEvents,
     WithTitle
 {
     use Exportable;
@@ -74,7 +74,7 @@ class FilesExport implements
 
         return [
             $file->id,
-            $file->name,
+            $file->file_name,
             $file->folder_id,
             $file->mime_type,
             $file->file_path,
@@ -113,7 +113,7 @@ class FilesExport implements
     {
         return File::query();
     }
-    
+
     public function title():string{
         return $this->name;
     }

@@ -53,10 +53,8 @@ class FileController extends Controller
             'files'     => 'required|max:15000000',
             'files.*'   => 'mimes:mp4,jpeg,jpg,png',
             'tags'      => 'required',
-            'name'      => 'sometimes|nullable|exists:files,name'
         ],[
             'tags.required' => 'Please add tags',
-            'name.exists'   => 'File name already exists in the database, please change the file name.',
             'files.*.mimes'   => 'You can only upload with the following file types: mp4, jpeg, jpg, png.',
         ]);
 

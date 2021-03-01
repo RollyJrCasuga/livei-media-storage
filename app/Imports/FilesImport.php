@@ -13,11 +13,11 @@ use Illuminate\Support\Facades\File as FileStorage;
 class FilesImport implements ToCollection, WithHeadingRow
 {
     use Importable;
-    
+
     public function collection(Collection $rows)
     {
         foreach ($rows as $row) {
-            if(File::where('id', $row['id'])->exists()){
+            if (File::where('id', $row['id'])->exists()){
                 // update
                 $file = File::find($row['id']);
                 // if(auth()->user()->hasRole('youtube')){
@@ -28,38 +28,38 @@ class FilesImport implements ToCollection, WithHeadingRow
                 // }
                 $root_folder = 'youtube';
 
-                $name = $row['name'];
+                $file_name = $row['name'];
                 $folder_id = $row['folder_id'];
-                $old_path = $file->file_path;
+                $old_path  = $file->file_path;
 
                 if ($file->folder_id) {
                     $parent_folder = Folder::firstWhere('id', $file->folder_id);
-                    $new_path = $parent_folder->folder_path . $name;
+                    $new_path = $parent_folder->folder_path . $file_name;
                 } else {
-                    $new_path = '/media/'. $root_folder . '/' . $name;
+                    $new_path = "/media/{$root_folder}/{$file_name}";
                 }
 
                 FileStorage::move(public_path($old_path), public_path($new_path));
                 $file->update([
-                    'name' => $name,
-                    'file_path' => $new_path 
+                    'name'      => pathinfo($row['name'], PATHINFO_FILENAME),
+                    'file_name' => $file_name,
+                    'file_path' => $new_path
                 ]);
                 $tags = $row['tags'];
                 $tags = explode(', ', $tags);
                 $file->syncTags($tags);
-            }
-            
-            else{
+            } else {
                 // create
                 $file = File::create([
-                    'name' => $row['name'],
+                    'name'      => pathinfo($row['name'], PATHINFO_FILENAME),
+                    'file_name' => $row['name'],
                     'mime_type' => $row['mime_type'],
                     'file_path' => $row['file_path'],
                     'file_size' => $row['file_size']
                 ]);
 
                 if($row['folder_id']){
-                    $file->folder_id= $row['folder_id'];
+                    $file->folder_id = $row['folder_id'];
                     $file->save();
                 }
                 if ($row['tags']) {
@@ -69,7 +69,7 @@ class FilesImport implements ToCollection, WithHeadingRow
                 }
             }
 
-            
+
         }
     }
 }
