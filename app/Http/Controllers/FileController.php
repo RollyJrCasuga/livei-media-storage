@@ -53,7 +53,7 @@ class FileController extends Controller
             'files'     => 'required|max:15000000',
             'files.*'   => 'mimes:mp4,jpeg,jpg,png',
             'tags'      => 'required',
-            'name'      => 'nullable|exists:files,name'
+            'name'      => 'sometimes|nullable|exists:files,name'
         ],[
             'tags.required' => 'Please add tags',
             'name.exists'   => 'File name already exists in the database, please change the file name.',
@@ -66,10 +66,8 @@ class FileController extends Controller
             return response()->json(['error' => 'upload error', 'url' => url()->previous()]);
         }
 
-        
-        if($files = $request->file('files'))
+        if ($files = $request->file('files'))
         {
-
             $root_folder = 'youtube';
             $folder_id = $request->get('folder_id');
 
@@ -90,22 +88,23 @@ class FileController extends Controller
                     $file_name = $file->getClientOriginalName();
                     $name_only = pathinfo($file_name, PATHINFO_FILENAME);
                 }
-                
-                if (File::firstWhere('name', $file_name)) {
+
+                if (File::firstWhere('name', $name_only)) {
                     session()->flash('alert-class', 'danger');
                     session()->flash('message', 'File name already exists in the database, please change the file name.');
                     return response()->json(['error' => 'upload error', 'url' => url()->previous()]);
                 }
-                
+
                 $mime_type = $file->getClientMimeType();
                 $file_size = $file->getSize();
-                $file_size = number_format($file_size / 1048576,2).'MB';
+                $file_size = number_format($file_size / 1048576,2)."MB";
 
                 $create_path = public_path($folder_path);
                 $save_video = $file->move($create_path, $file_name);
-                $file_path= "{$folder_path}{$file_name}";
-                
+                $file_path = $folder_path . $file_name;
+
                 if ($save_video) {
+
                     $file = File::create([
                         'name'      => $name_only,
                         'file_name' => $file_name,
