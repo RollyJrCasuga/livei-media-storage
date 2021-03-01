@@ -335,12 +335,15 @@ a {
     }
     .medias {
         width: 100%;
-        // height: 20rem;
         height: auto;
         @include media(md) {
-            width: 100%;
-            // height: 623px;
             height: 641px;
+        }
+    }
+    .img {
+        text-align: center;
+        .medias {
+            width: auto;
         }
     }
     button {

@@ -5,19 +5,17 @@
 @endpush
 @section('content')
 <div class="view d-flex justify-content-center card-wrapper">
-  <div class="card">
-    <div class="card-header">
-        <a class="btn btn-light mb-2" href="{{ url()->previous() }}"><i class="fas fa-arrow-left"></i></a>
-        <a class="ml-2  ">
-        {{ $file->name }}
-        </a>
-    </div>
-    <div class="card-body pt-1 pt-md-0">
-        @if (strpos($file->mime_type, 'audio')  !== false )
+    <div class="card">
+        <div class="card-header">
+            <a class="btn btn-light mb-2" href="{{ url()->previous() }}"><i class="fas fa-arrow-left"></i></a>
+            <a class="ml-2">{{ $file->name }}</a>
+        </div>
+        <div class="card-body pt-1 pt-md-0">
+            @if (strpos($file->mime_type, 'audio')  !== false )
             <audio class="media-view" controls>
                 <source src="{{ asset($file->file_path) }}" type="{{ $file->mime_type }}">
             </audio>
-        @elseif (strpos($file->mime_type, 'video')  !== false )
+            @elseif (strpos($file->mime_type, 'video')  !== false )
             <video
                 id="my-video"
                 class="video-js media-view"
@@ -27,13 +25,12 @@
             >
                 <source src="{{ asset($file->file_path) }}" type="{{ $file->mime_type }}" />
             </video>
+            @elseif (strpos($file->mime_type, 'image')  !== false )
+                <a href="{{ asset($file->file_path) }}">
+                    <img class="media-view" src="{{ asset($file->file_path) }}" alt="">
+                </a>
+            @endif
 
-        @elseif (strpos($file->mime_type, 'image')  !== false )
-            <a href="{{ asset($file->file_path) }}">
-                <img class="media-view" src="{{ asset($file->file_path) }}" alt="">
-            </a>
-        @endif
-        
             <form class="mt-3" method="post" action="{{ route('file.update', $file->id) }}" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group file-name">
@@ -52,18 +49,20 @@
                     <button type="submit" class="btn btn-primary"><i class="far fa-edit"></i> Update</button>
                 </div>
             </form>
-                <div class="form-group">
-                    <a class="btn btn-success" href="{{ asset($file->file_path) }}" download><i class="fas fa-download"></i> Download</a>
-                </div>
-                @role('administrator')
-                    <div class="form-group">
-                        <form action="{{ route('file.destroy', $file->id) }}" method="post">
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn btn-danger" type="submit"><i class="far fa-trash-alt"></i> Delete</button>
-                        </form>
-                    </div>
-                @endrole
+
+            <div class="form-group">
+                <a class="btn btn-success" href="{{ asset($file->file_path) }}" download><i class="fas fa-download"></i> Download</a>
+            </div>
+
+            @role('administrator')
+            <div class="form-group">
+                <form action="{{ route('file.destroy', $file->id) }}" method="post">
+                    @csrf
+                    @method('DELETE')
+                    <button class="btn btn-danger" type="submit"><i class="far fa-trash-alt"></i> Delete</button>
+                </form>
+            </div>
+            @endrole
     </div>
 </div>
 @endsection

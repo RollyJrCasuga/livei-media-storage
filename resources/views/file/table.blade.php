@@ -28,26 +28,22 @@
 
 @foreach($files as $file)
 <tr class='table-row' >
-    @if (strpos($file->mime_type, 'audio')  !== false )
-        <td class='d-flex align-items-center table-file' data-name="{{ $file->name }}" data-src='{{ asset($file->file_path) }}' data-mime='{{ $file->mime_type }}' data-type='audio'>
-            <audio id="audo-file" class="table-preview" controls>
-                <source src="{{ asset($file->file_path) }}" type="{{ $file->mime_type }}">
-            </audio>
-            
-    @elseif (strpos($file->mime_type, 'video')  !== false )
-        <td class='d-flex align-items-center table-file' data-name="{{ $file->name }}" data-src='{{ asset($file->file_path) }}' data-mime='{{ $file->mime_type }}' data-type='video'>
-            <i class="fas fa-play-circle table-preview"></i>
-            {{-- <i class="fab fa-youtube table-preview"></i> --}}
-            {{-- <img class="table-preview" src="{{ asset($file->thumbnail_path) }}" alt=""> --}}
-
-    @elseif (strpos($file->mime_type, 'image')  !== false )
-        <td class='d-flex align-items-center table-file' data-name="{{ $file->name }}" data-src='{{ asset($file->file_path) }}' data-mime='{{ $file->mime_type }}' data-type='image'>
-            <img class="table-preview" src="{{ asset($file->file_path) }}" alt="">
-
+    @if (strpos($file->mime_type, 'audio') !== false)
+    <td class='d-flex align-items-center table-file' data-id="{{ $file->id }}" data-name="{{ $file->name }}" data-src='{{ asset($file->file_path) }}' data-mime='{{ $file->mime_type }}' data-type='audio'>
+        <audio id="audo-file" class="table-preview" controls>
+            <source src="{{ asset($file->file_path) }}" type="{{ $file->mime_type }}">
+        </audio>
+    @elseif (strpos($file->mime_type, 'video') !== false)
+    <td class='d-flex align-items-center table-file' data-id="{{ $file->id }}" data-name="{{ $file->name }}" data-src='{{ asset($file->file_path) }}' data-mime='{{ $file->mime_type }}' data-type='video'>
+        <i class="fas fa-play-circle table-preview"></i>
+        {{-- <i class="fab fa-youtube table-preview"></i> --}}
+        {{-- <img class="table-preview" src="{{ asset($file->thumbnail_path) }}" alt=""> --}}
+    @elseif (strpos($file->mime_type, 'image') !== false)
+    <td class='d-flex align-items-center table-file' data-id="{{ $file->id }}" data-name="{{ $file->name }}" data-src='{{ asset($file->file_path) }}' data-mime='{{ $file->mime_type }}' data-type='image'>
+        <img class="table-preview" src="{{ asset($file->file_path) }}" alt="">
     @else
-        <td class='d-flex align-items-center table-file' data-name="{{ $file->name }}" data-src='{{ asset($file->file_path) }}' data-mime='{{ $file->mime_type }}' data-type='others'>
-            <i class="far fa-file table-preview icon"></i>
-
+    <td class='d-flex align-items-center table-file' data-id="{{ $file->id }}" data-name="{{ $file->name }}" data-src='{{ asset($file->file_path) }}' data-mime='{{ $file->mime_type }}' data-type='others'>
+        <i class="far fa-file table-preview icon"></i>
     @endif
         <a class="m-2" class="file-name">{{ $file->name }}</a>
     </td>
@@ -57,7 +53,7 @@
             <code class="h6 text-light p-1 m-0">{{ $tag->name }}</code>
         </div>
         @endforeach
-        
+
     </td>
     <td>{{ $file->file_size }}</td>
     <td>{{ $file->created_at->format('M j, Y h:i:s A') }}</td>
@@ -85,17 +81,17 @@
 @endforeach
 
 <div class="modal fade lightbox mt-10 mt-md-0" id="lightbox" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-xl" role="document">
-    <div class="modal-content">
-      {{-- <div class="modal-header">
-          <h5 class="modal-title"></h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div> --}}
-      <div class="modal-body">
-        <p class="body">loading...</p>
-      </div>
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            {{-- <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div> --}}
+            <div class="modal-body">
+                <div class="body">loading...</div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>

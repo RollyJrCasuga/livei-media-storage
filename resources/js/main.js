@@ -4,6 +4,7 @@ $("body").on("click", ".table-data", function (e) {
 
 $("body").on("click", ".table-file", function (e) {
     $("#lightbox").modal("toggle");
+    let file_id = $(this).data("id");
     let file_name = $(this).data("name");
     let file_type = $(this).data("type");
     let file_src = $(this).data("src");
@@ -12,29 +13,30 @@ $("body").on("click", ".table-file", function (e) {
     switch (file_type) {
         case "video":
             content =
-                "<video class='video-js medias' controls preload='auto' data-setup='{}'><source src='" +
+                "<video-js id='my-video' class='video-js medias' controls preload='auto' data-setup='{}'><source src='" +
                 file_src +
                 "' type='" +
                 file_mime +
-                "' /></video><p>" +
+                "' /></video-js><p>" +
                 file_name +
                 "</p>" +
                 "<a class='btn btn-primary' href='" +
                 file_src +
                 "' download><i class='fas fa-download'></i> Download</a>";
-            $("#lightbox p").html(content);
+            $("#lightbox .body").html(content);
+            videojs("my-video");
             break;
         case "image":
             content =
-                "<img class='medias' src='" +
+                "<div class='img'><img class='medias' src='" +
                 file_src +
-                "'><p>" +
+                "'></div><p>" +
                 file_name +
                 "</p>" +
                 "<a class='btn btn-primary' href='" +
                 file_src +
                 "' download><i class='fas fa-download'></i> Download</a>";
-            $("#lightbox p").html(content);
+            $("#lightbox .body").html(content);
             break;
         case "audio":
             content =
@@ -43,13 +45,18 @@ $("body").on("click", ".table-file", function (e) {
                 "' type=''></audio><p>" +
                 file_name +
                 "</p>";
-            $("#lightbox p").html(content);
+            $("#lightbox .body").html(content);
             break;
         default:
             content = "<h3>Unknown File</h3>";
-            $("#lightbox p").html(content);
-            break;
+            $("#lightbox .body").html(content);
     }
+});
+
+$("#lightbox").on("hidden.bs.modal", function () {
+    videojs("my-video").dispose();
+    content = "<h3>No media...</h3>";
+    $("#lightbox .body").html(content);
 });
 
 window.getTags = (inputTagify = null) => {
@@ -68,7 +75,7 @@ function setTags(tags = []) {
 }
 
 // auto hide flash messages
-window.autoHideAlert = (time = 2000) => {
+window.autoHideAlert = (time = 6000) => {
     setTimeout(() => {
         $(".flash-message #alert").each(function (index) {
             $(this)
@@ -80,26 +87,23 @@ window.autoHideAlert = (time = 2000) => {
     }, time);
 };
 
-$(function () {
-    if ($("#lightbox").css("display") == "none") {
-        let media = $(".video-js");
-        // media.pause();
-        console.log("pause");
-    } else {
-        console.log("show");
-    }
-});
+// $(function () {
+//     if ($("#lightbox").css("display") == "none") {
+//         let media = $(".video-js");
+//         // media.pause();
+//         console.log("pause");
+//     } else {
+//         console.log("show");
+//     }
 
-jQuery(function () {
-    if ($("#lightbox").css("display") == "block") {
-        let media = $(".video-js");
-        // media.pause();
-        console.log("pause");
-    } else {
-        console.log("show");
-    }
-    s;
-});
+//     if ($("#lightbox").css("display") == "block") {
+//         let media = $(".video-js");
+//         // media.pause();
+//         console.log("pause");
+//     } else {
+//         console.log("show");
+//     }
+// });
 
 // $("body").on("click", "#lightbox", function (e) {
 //     console.log("lightbox");
@@ -111,3 +115,5 @@ jQuery(function () {
 //         console.log("show");
 //     }
 // });
+
+autoHideAlert();
