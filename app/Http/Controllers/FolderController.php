@@ -93,7 +93,7 @@ class FolderController extends Controller
      */
     public function edit(Folder $folder)
     {
-        //
+        return view('folder.edit', compact('folder'));
     }
 
     /**
@@ -123,14 +123,20 @@ class FolderController extends Controller
 
             $folder_path = ($folder->parent) ? $folder->parent->folder_path . $new_name . '/' : "/media/{$root_folder}/{$new_name}/";
 
-            $this->update_folder($folder, $folder_path);
+            $this->update_folder($folder, $new_name, $folder_path);
         }
+
+        return redirect()->back();
     }
 
-    public function update_folder($folder, $new_path) {
+    public function update_folder($folder, $new_name, $new_path) {
+        if(!FileStorage::isDirectory(public_path($new_path))){
+            FileStorage::makeDirectory(public_path($new_path), 0775, true, true);
+        }
+        
         if ($folders = $folder->subfolder) {
             foreach ($folders as $folder) {
-                $this->change_folder_path($folder, $folder_path);
+                $this->change_folder_path($folder, $new_path);
             }
         }
 
@@ -140,15 +146,14 @@ class FolderController extends Controller
             }
         }
 
-        if (!$folder->files && !$folder->subfolder) {
-            FileStorage::move(public_path($folder->folder_path), public_path($new_path));
-        }
-
-        $folder->update(['folder_path' => $new_path]);
+        $folder->update([
+            'name'        => $new_name,
+            'folder_path' => $new_path
+        ]);
+        $delete_folder = FileStorage::deleteDirectory(public_path($folder->folder_path));
     }
 
     public function change_folder_path($folder, $path) {
-        $old_path = $file->file_path;
         $new_path = $path . $folder->name . '/';
 
         $this->update_folder($folder, $new_path);
@@ -158,7 +163,7 @@ class FolderController extends Controller
         $old_path = $file->file_path;
         $new_path = $path . $file->file_name;
 
-        FileStorage::move(public_path($old_path), public_path($new_path));
+        FileStorage::copy(public_path($old_path), public_path($new_path));
 
         $file->update(['file_path' => $new_path]);
     }
