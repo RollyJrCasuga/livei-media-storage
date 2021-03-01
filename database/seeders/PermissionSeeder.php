@@ -20,21 +20,12 @@ class PermissionSeeder extends Seeder
         $role3 = Role::create(['name' => 'youtube']);
 
         $user = User::create([
-            'first_name' => 'Admin',
+            'first_name' => 'SuperAdmin',
             'last_name' => 'User',
             'email' => 'admin@livei.com',
             'password' => bcrypt('liveiadmin'),
             'email_verified_at' => now(),
         ]);
         $user->assignRole($role1);
-
-        $user = User::create([
-            'first_name' => 'Staff',
-            'last_name' => 'User',
-            'email' => 'staff@livei.com',
-            'password' => bcrypt('liveistaff'),
-            'email_verified_at' => now(),
-    ]);
-        $user->assignRole($role2);
     }
 }
