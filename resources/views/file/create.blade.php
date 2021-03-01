@@ -43,7 +43,7 @@
                         <div class="percent">0%</div >
                     </div>
                 </div>
-                <input type="submit"  value="+ Upload" class="btn btn-primary">
+                <input id="upload-btn" type="submit"  value="+ Upload" class="btn btn-primary">
             </form>
         </div>
     </div>
@@ -65,8 +65,10 @@
             var percentVal = percentComplete + '%';
             bar.width(percentVal)
             percent.html(percentVal);
+            $( "#upload-btn" ).prop( "disabled", true );
         },
         complete: function (xhr) {
+            // console.log(xhr.responseJSON);
             window.location.href = xhr.responseJSON.url;
             // window.location.reload();
         }

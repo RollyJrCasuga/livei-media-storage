@@ -53,7 +53,7 @@ class FileController extends Controller
             'files'     => 'required|max:15000000',
             'files.*'   => 'mimes:mp4,jpeg,jpg,png',
             'tags'      => 'required',
-            'name'      => 'nullable|exists:file,name'
+            'name'      => 'nullable|exists:files,name'
         ],[
             'tags.required' => 'Please add tags',
             'name.exists'   => 'File name already exists in the database, please change the file name.',
@@ -66,8 +66,10 @@ class FileController extends Controller
             return response()->json(['error' => 'upload error', 'url' => url()->previous()]);
         }
 
+        
         if($files = $request->file('files'))
         {
+
             $root_folder = 'youtube';
             $folder_id = $request->get('folder_id');
 
@@ -88,13 +90,13 @@ class FileController extends Controller
                     $file_name = $file->getClientOriginalName();
                     $name_only = pathinfo($file_name, PATHINFO_FILENAME);
                 }
-
-                if (File::where('name', $file_name)->exists()) {
+                
+                if (File::firstWhere('name', $file_name)) {
                     session()->flash('alert-class', 'danger');
                     session()->flash('message', 'File name already exists in the database, please change the file name.');
                     return response()->json(['error' => 'upload error', 'url' => url()->previous()]);
                 }
-
+                
                 $mime_type = $file->getClientMimeType();
                 $file_size = $file->getSize();
                 $file_size = number_format($file_size / 1048576,2).'MB';
@@ -102,10 +104,11 @@ class FileController extends Controller
                 $create_path = public_path($folder_path);
                 $save_video = $file->move($create_path, $file_name);
                 $file_path= "{$folder_path}{$file_name}";
-
+                
                 if ($save_video) {
                     $file = File::create([
-                        'name'      => $file_name,
+                        'name'      => $name_only,
+                        'file_name' => $file_name,
                         'mime_type' => $mime_type,
                         'file_path' => $file_path,
                         'file_size' => $file_size,
@@ -157,7 +160,6 @@ class FileController extends Controller
                 }
 
                 $url = ($folder_id) ? route('folder.show', $folder_id) : route('home');
-
                 session()->flash('alert-class', 'success');
                 session()->flash('message', 'Upload success');
                 return response()->json(['success' => 'upload success', 'url' => $url]);
