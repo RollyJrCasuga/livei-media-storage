@@ -335,14 +335,15 @@ a {
     }
     .medias {
         width: 100%;
-        height: auto;
-        @include media(md) {
+        @include media(lg) {
             height: 641px;
         }
     }
     .img {
         text-align: center;
         .medias {
+            max-width: 100%;
+            height: auto;
             width: auto;
         }
     }
