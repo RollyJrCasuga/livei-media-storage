@@ -197,12 +197,18 @@ class FileController extends Controller
      */
     public function update(Request $request, File $file)
     {
-        $validatedData = $request->validate([
+        $validator = validator($request->all(), [
             'name' => 'required|max:255',
             'tags' => 'required'
         ], [
             'tags.required' => 'Please add tags',
         ]);
+
+        if ($validator->fails()) {
+            session()->flash('alert-class', 'danger');
+            session()->flash('message', $validator->errors()->all());
+            return response()->json(['error' => 'upload error', 'url' => url()->previous()]);
+        }
 
         $name = $request->get('name');
         $file_name = $name . '.' . pathinfo($file->file_name, PATHINFO_EXTENSION);

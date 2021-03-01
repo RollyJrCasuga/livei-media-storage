@@ -17,7 +17,7 @@ class FolderController extends Controller
      */
     public function index()
     {
-        
+
     }
 
     /**
@@ -49,7 +49,7 @@ class FolderController extends Controller
         //     $root_folder = 'accounting';
         // }
         $root_folder = 'youtube';
-        
+
         if ($parent_id) {
             $parent_folder = Folder::firstWhere('id', $parent_id);
             $folder_path = $parent_folder->folder_path . $folder_name . '/';
@@ -68,7 +68,7 @@ class FolderController extends Controller
             'folder_path' =>  $folder_path,
             'parent_id' => $parent_id,
         ]);
-        
+
         return redirect()->route('folder.show', $folder->id);
     }
 
@@ -79,7 +79,7 @@ class FolderController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Folder $folder)
-    { 
+    {
         $files = $folder->files;
         $folders = $folder->subfolder;
         return view('folder.index', compact('folder', 'files', 'folders'));
@@ -105,7 +105,62 @@ class FolderController extends Controller
      */
     public function update(Request $request, Folder $folder)
     {
-        //
+        $validator = validator($request->all(), [
+            'name' => 'required|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            session()->flash('alert-class', 'danger');
+            session()->flash('message', $validator->errors()->all());
+            return response()->json(['error' => 'upload error', 'url' => url()->previous()]);
+        }
+
+        $old_name = $folder->name;
+        $new_name = $request->name;
+
+        if ($old_name != $new_name) {
+            $root_folder = 'youtube';
+
+            $folder_path = ($folder->parent) ? $folder->parent->folder_path . $new_name . '/' : "/media/{$root_folder}/{$new_name}/";
+
+            $this->update_folder($folder, $folder_path);
+        }
+    }
+
+    public function update_folder($folder, $new_path) {
+        if ($folders = $folder->subfolder) {
+            foreach ($folders as $folder) {
+                $this->change_folder_path($folder, $folder_path);
+            }
+        }
+
+        if ($files = $folder->files) {
+            foreach ($files as $file) {
+                $this->change_file_path($file, $new_path);
+            }
+        }
+
+        if (!$folder->files && !$folder->subfolder) {
+            FileStorage::move(public_path($folder->folder_path), public_path($new_path));
+        }
+
+        $folder->update(['folder_path' => $new_path]);
+    }
+
+    public function change_folder_path($folder, $path) {
+        $old_path = $file->file_path;
+        $new_path = $path . $folder->name . '/';
+
+        $this->update_folder($folder, $new_path);
+    }
+
+    public function change_file_path($file, $path) {
+        $old_path = $file->file_path;
+        $new_path = $path . $file->file_name;
+
+        FileStorage::move(public_path($old_path), public_path($new_path));
+
+        $file->update(['file_path' => $new_path]);
     }
 
     /**
