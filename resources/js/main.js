@@ -13,7 +13,7 @@ $("body").on("click", ".table-file", function (e) {
     switch (file_type) {
         case "video":
             content =
-                "<video-js id='my-video' class='video-js medias' controls preload='auto' data-setup='{}'><source src='" +
+                "<video-js id='my-video' class='video-js medias vjs-fluid' controls preload='auto' data-setup='{}'><source src='" +
                 file_src +
                 "' type='" +
                 file_mime +
