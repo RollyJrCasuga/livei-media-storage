@@ -14,7 +14,7 @@
                 <i class="fas fa-ellipsis-v"></i>
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="{{ route('folder.edit', $folder->id) }}"><i class="far fa-edit"></i> View/Edit</a>
+                <a class="dropdown-item" href="{{ route('folder.edit', $folder->id) }}"><i class="far fa-edit"></i> Rename</a>
                 <form action="{{ route('folder.destroy', $folder->id) }}" method="post">
                     @csrf
                     @method('DELETE')
