@@ -13,7 +13,7 @@ $("body").on("click", ".table-file", function (e) {
     switch (file_type) {
         case "video":
             content =
-                "<video-js id='my-video' class='video-js medias vjs-fluid vjs-progress-control vjs-mouse-display' controls preload='auto' data-setup='{}'><source src='" +
+                "<video-js id='my-video' class='video-js medias vjs-fluid vjs-big-play-centered' controls preload='auto' data-setup='{}'><source src='" +
                 file_src +
                 "' type='" +
                 file_mime +
@@ -24,7 +24,6 @@ $("body").on("click", ".table-file", function (e) {
                 file_src +
                 "' download><i class='fas fa-download'></i> Download</a>";
             $("#lightbox .body").html(content);
-            // videojs("my-video");
             videojs("my-video").ready(function () {
                 this.hotkeys({
                     volumeStep: 0.1,
@@ -35,12 +34,6 @@ $("body").on("click", ".table-file", function (e) {
                     forward: 0.5,
                     back: 0.5,
                 });
-                // setInterval(() => {
-                //     let time = this.currentTime();
-                //     console.log(time);
-                // }, 500);
-                // MouseTimeDisplay(this);
-                // console.log(this.MouseTimeDisplay());
             });
             break;
         case "image":

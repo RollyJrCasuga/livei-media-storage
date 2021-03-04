@@ -23,6 +23,7 @@
     },
     "dependencies": {
         "@yaireo/tagify": "^3.22.1",
-        "videojs-fbf-wheel": "^1.0.6"
+        "videojs-fbf-wheel": "^1.0.6",
+        "videojs-preview-thumbnails": "^1.0.5"
     }
 }

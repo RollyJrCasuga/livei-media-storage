@@ -21,7 +21,7 @@
   <div class="container">
     @auth
       @include('partials.navbar')
-    @endauth
+    @endauth  
     @yield('content')
   </div>
   @include('partials.footer')
