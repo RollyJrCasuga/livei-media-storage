@@ -22,6 +22,7 @@
         "sass-loader": "^8.0.0"
     },
     "dependencies": {
-        "@yaireo/tagify": "^3.22.1"
+        "@yaireo/tagify": "^3.22.1",
+        "videojs-fbf-wheel": "^1.0.6"
     }
 }

@@ -8,6 +8,7 @@
   <title>Drive - Livei.com</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
   <link href="https://vjs.zencdn.net/7.10.2/video-js.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/videojs-seek-buttons/dist/videojs-seek-buttons.css" rel="stylesheet" />
   @if (config('app.env') == 'local')
     <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css" />
   @else
@@ -26,6 +27,8 @@
   @include('partials.footer')
   <script src="https://vjs.zencdn.net/7.10.2/video.min.js"></script>
   <script src="//cdn.sc.gl/videojs-hotkeys/0.2/videojs.hotkeys.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-seek-buttons/dist/videojs-seek-buttons.min.js"></script>
+
   @if (config('app.env') == 'local')
     <script src="{{asset('js/app.js')}}"></script>
   @else
