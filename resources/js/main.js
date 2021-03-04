@@ -28,13 +28,19 @@ $("body").on("click", ".table-file", function (e) {
             videojs("my-video").ready(function () {
                 this.hotkeys({
                     volumeStep: 0.1,
-                    seekStep: 5,
+                    seekStep: 0.5,
                     enableModifiersForNumbers: false,
                 });
                 this.seekButtons({
-                    forward: 1,
-                    back: 1,
+                    forward: 0.5,
+                    back: 0.5,
                 });
+                // setInterval(() => {
+                //     let time = this.currentTime();
+                //     console.log(time);
+                // }, 500);
+                // MouseTimeDisplay(this);
+                // console.log(this.MouseTimeDisplay());
             });
             break;
         case "image":
