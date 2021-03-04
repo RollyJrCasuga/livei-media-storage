@@ -25,6 +25,7 @@
   </div>
   @include('partials.footer')
   <script src="https://vjs.zencdn.net/7.10.2/video.min.js"></script>
+  <script src="//cdn.sc.gl/videojs-hotkeys/0.2/videojs.hotkeys.min.js"></script>
   @if (config('app.env') == 'local')
     <script src="{{asset('js/app.js')}}"></script>
   @else

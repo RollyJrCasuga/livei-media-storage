@@ -27,21 +27,20 @@ class PermissionSeeder extends Seeder
             'email_verified_at' => now(),
         ]);
         $user->assignRole($role1);
-        $user = User::create([
-            'first_name' => 'Jeff',
-            'last_name' => 'Rhoades',
-            'email' => 'jeff@livei.com',
-            'password' => bcrypt('driveadmin2021'),
-            'email_verified_at' => now(),
-        ]);
-        $user->assignRole($role1);
-        $user = User::create([
-            'first_name' => 'Milo',
-            'last_name' => 'Mamangco',
-            'email' => 'milo@livei.com',
-            'password' => bcrypt('driveadmin2021'),
-            'email_verified_at' => now(),
-        ]);
-        $user->assignRole($role1);
+        // $user = User::create([
+        //     'first_name' => 'Jeff',
+        //     'last_name' => 'Rhoades',
+        //     'email' => 'jeff@livei.com',
+        //     'password' => bcrypt('driveadmin2021'),
+        //     'email_verified_at' => now(),
+        // ]);
+        // $user->assignRole($role1);
+        // $user = User::create([
+        //     'first_name' => 'Milo',
+        //     'last_name' => 'Mamangco',
+        //     'email' => 'milo@livei.com',
+        //     'password' => bcrypt('driveadmin2021'),
+        //     'email_verified_at' => now(),
+        // ]);
     }
-}
+}   

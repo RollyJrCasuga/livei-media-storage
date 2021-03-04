@@ -24,7 +24,14 @@ $("body").on("click", ".table-file", function (e) {
                 file_src +
                 "' download><i class='fas fa-download'></i> Download</a>";
             $("#lightbox .body").html(content);
-            videojs("my-video");
+            // videojs("my-video");
+            videojs("my-video").ready(function () {
+                this.hotkeys({
+                    volumeStep: 0.1,
+                    seekStep: 5,
+                    enableModifiersForNumbers: false,
+                });
+            });
             break;
         case "image":
             content =
