@@ -43,7 +43,10 @@
                         <div class="percent">0%</div >
                     </div>
                 </div>
-                <input id="upload-btn" type="submit"  value="+ Upload" class="btn btn-primary">
+                <div id="loading-div" class="d-flex justify-content-center">
+                    {{-- <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><a class="ml-2">Uploading...</a> --}}
+                </div>
+                <input id="upload-btn" type="submit"  value="+ Upload" class="btn btn-primary mt-3">
             </form>
         </div>
     </div>
@@ -66,6 +69,7 @@
             bar.width(percentVal)
             percent.html(percentVal);
             $( "#upload-btn" ).prop( "disabled", true );
+            $( "#loading-div" ).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><a class="ml-2">Uploading...</a>');
         },
         complete: function (xhr) {
             // console.log(xhr.responseJSON);
